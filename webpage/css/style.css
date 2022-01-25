@@ -1,0 +1,228 @@
+body {
+	margin: 0;
+	font-family: var(--sl-font-sans);
+}
+
+div#navDetails a:hover {
+	color: var(--sl-color-success-500);
+}
+
+div#navDetails a:active {
+	color: var(--sl-color-primary-500);
+}
+
+div#navDetails a {
+	color: black;
+	text-decoration-line: none;
+	text-decoration-color: black;
+}
+
+aside sl-button {
+	width:100%;
+	padding-bottom: 2vw;
+}
+
+aside.sidebar {
+	position: fixed;
+	padding-top: 0;
+	background: #c8e6c9;
+	border-right: solid 1px var(--sl-color-gray-200);
+	overflow-y: auto;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	width: 20vw;
+	z-index: 20;
+	padding: 2vw;
+	/* max-width: 400px; */
+	box-sizing: border-box;
+	text-align: center;
+	overflow-y: scroll;
+}
+
+aside.sidebar.closed {
+	transform: translateX(-20vw);
+}
+
+div.glances {
+	/* justify-content: space-between; */
+	display: flex;
+	flex-direction: row;
+	margin: 1vw;
+}
+
+div.section.market sl-card.graph {
+	margin-bottom: 0;
+}
+
+div.glances sl-card {
+	/* width: 35vw; */
+	display: flex;
+	margin: auto;
+	text-align: center;
+	/* min-width: 300px; */
+}
+div.glances sl-card p {
+	text-align: center;
+	margin: 0;
+}
+
+table {
+	border-collapse: collapse;
+	margin: 1rem 0;
+	display: block;
+	overflow-x: auto;
+}
+tr {
+	border-top: 1px solid #dfe2e5;
+}
+tr:nth-child(2n) {
+	background-color: #f6f8fa;
+}
+td,
+th {
+	border: 1px solid #dfe2e5;
+	padding: 0.6em 1em;
+}
+
+main sl-details {
+	padding: 2vw;
+}
+
+main sl-details::part(header) {
+	background-color: #c8e6c9;
+}
+
+.success {
+	color: var(--sl-color-success-500);
+	--border-color: var(--sl-color-success-500);
+}
+
+.danger {
+	color: var(--sl-color-danger-500);
+	--border-color: var(--sl-color-danger-500);
+}
+
+.warning {
+	color: var(--sl-color-warning-500);
+	--border-color: var(--sl-color-warning-500);
+}
+
+aside h1 {
+	font-weight: var(--sl-font-weight-bold);
+	font-size: var(--sl-font-size-x-large);
+	padding-bottom: 0;
+}
+
+aside h2 {
+	font-weight: var(--sl-font-weight-bold);
+	font-size: var(--sl-font-size-large);
+	padding-bottom: 1vw;
+}
+
+aside sl-details ol {
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+}
+
+aside sl-details div[slot="summary"] p {
+	margin: 0;
+	padding: 0;
+}
+aside sl-details div[slot="summary"] p sl-tag {
+	margin: 0;
+	padding-left: 5px;
+}
+
+aside sl-input {
+	margin-bottom: 2vw;
+}
+
+aside sl-details {
+	background-color: var(--sl-color-white);
+}
+
+aside sl-details.selected {
+	background-color: #a5d6a7;
+}
+
+#overlayLoading.overlay {
+	visibility: visible;
+	opacity: 1;
+	transition: opacity 0.5s linear;
+
+}
+#overlayLoading{
+	cursor: wait;
+	position: fixed;
+	width: 100%;
+	z-index: 2;
+	height: 100%;
+	transition: visibility 0s 0.5s, opacity 0.5s linear;
+	background-color: var(--sl-color-gray-100);
+	opacity: 0;
+	visibility: hidden;
+}
+
+aside sl-skeleton {
+	width: inherit;
+	height: 40px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+sl-card.graph div.large sl-skeleton {
+	width: 75vw;
+	height: 400px;
+	box-sizing: border-box;
+	--border-radius: 0;
+}
+
+sl-skeleton.error {
+	--color: var(--sl-color-danger-300);
+	--sheen-color: var(--sl-color-danger-100);
+}
+
+sl-card.graph div.small sl-skeleton {
+	width: 35vw;
+	height: 400px;
+	min-width: 400px;
+	box-sizing: border-box;
+	--border-radius: 0;
+}
+
+.hidden {
+	display: none !important;
+}
+
+main {
+	/* padding-left: 20vw; */
+	padding-left: 20vw;
+	overflow-wrap: break-word;
+}
+
+main sl-card.graph div.large {
+	/* Broken on firefox? */
+	width: 75vw;
+	height: 400px;
+}
+
+main sl-card.graph div.small {
+	width: 34vw;
+	height: 400px;
+	min-width: 400px;
+	box-sizing: border-box;
+}
+
+main sl-card.graph div[slot="footer"] {
+	font-size: var(--sl-font-size-x-small);
+}
+
+main sl-card {
+	margin: 1vw;
+}
+
+hr {
+	border: 1px solid var(--sl-color-gray-300);
+}

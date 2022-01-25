@@ -1,0 +1,14 @@
+{
+	"python.languageServer": "Pylance",
+	"python.linting.prospectorEnabled": true,
+	"python.linting.pydocstyleEnabled": false,
+	"python.linting.pylintEnabled": false,
+	"python.testing.promptToConfigure": false,
+	"python.testing.pytestEnabled": true,
+	"editor.detectIndentation": true,
+	"python.linting.prospectorArgs": [
+		"-shigh"
+	],
+	"python.linting.enabled": true,
+	"jupyter.jupyterServerType": "local",
+}

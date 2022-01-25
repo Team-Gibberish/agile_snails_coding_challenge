@@ -1,0 +1,9 @@
+# Adapt line endings to be operating-system specific
+* text=auto
+
+# random.txt is used for hash testing, so ensure line endings are not changed
+random.txt=lf
+
+# Starting containers may result in the following error if lf line endings are not used:
+# standard_init_linux.go:228: exec user process caused: no such file or directory
+dockerstart.sh=lf

@@ -1,0 +1,3 @@
+# ---- MongoDB ---- #
+FROM mongo:4.4.0
+EXPOSE 27017

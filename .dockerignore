@@ -1,0 +1,13 @@
+# Ignore everything
+*
+
+# Python environment
+!environment.yml
+
+# sjautobidder distributions
+!dist/
+
+!dockerstart.sh
+
+# website distribution
+!webpage/

@@ -1,0 +1,18 @@
+version: "3"
+services:
+  sjautobidder:
+    build:
+      context: .
+    ports:
+    - "80:80"
+  mongodb:
+    build:
+      context: ./mongodb
+    volumes:
+      - $PWD/mongodb/mongo-data:/data/db
+      - $PWD/mongodb/mongo-app:/var/www/html
+    ports:
+    - "27017:27017"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=slimjab
+      - MONGO_INITDB_ROOT_PASSWORD=default

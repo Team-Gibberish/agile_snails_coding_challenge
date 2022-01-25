@@ -1,0 +1,91 @@
+{
+	// See https://go.microsoft.com/fwlink/?LinkId=733558
+	// for the documentation about the tasks.json format
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Generate Test Coverage (Windows)",
+			"type": "shell",
+			"command": "conda activate sjautobidder; pytest --cov-report xml:cov.xml --cov=sjautobidder tests/",
+			"problemMatcher": [],
+			"presentation": {
+				"echo": true,
+				"reveal": "silent",
+				"focus": false,
+				"panel": "shared",
+				"showReuseMessage": false,
+				"clear": true
+			}
+		},
+		{
+			"label": "Build Package Wheel (Windows)",
+			"type": "shell",
+			"command": "conda activate sjautobidder; python -m build .; rm -r sjautobidder.egg-info; rm -r build/; ",
+			"problemMatcher": [],
+			"presentation": {
+				"echo": true,
+				"reveal": "silent",
+				"focus": false,
+				"panel": "shared",
+				"showReuseMessage": false,
+				"clear": true
+			}
+		},
+		{
+			"label": "Build Docker Image",
+			"type": "shell",
+			"command": "docker build -t sjautobidder . ",
+			"problemMatcher": [],
+			"presentation": {
+				"echo": true,
+				"reveal": "always",
+				"focus": false,
+				"panel": "shared",
+				"showReuseMessage": false,
+				"clear": true
+			}
+		},
+		{
+			"label": "Run Webserver (Linux)",
+			"type": "shell",
+			"command": "source /home/wyvern/miniconda3/envs/sjautobidder/bin/activate && gunicorn sjautobidder.reporting.webserver --log-level Debug",
+			"problemMatcher": [],
+			"presentation": {
+				"echo": true,
+				"reveal": "always",
+				"focus": true,
+				"panel": "dedicated",
+				"showReuseMessage": false,
+				"clear": true
+			}
+		},
+		{
+			"label": "Run Docker Image",
+			"type": "shell",
+			"command": "docker run sjautobidder",
+			"problemMatcher": [],
+			"presentation": {
+				"echo": true,
+				"reveal": "always",
+				"focus": false,
+				"panel": "shared",
+				"showReuseMessage": false,
+				"clear": true
+			}
+		},
+		{
+			"label": "Build Webpage",
+			"type": "shell",
+			"command": "cd webpage; yarn; yarn run tsc; yarn run rollup -c",
+			"problemMatcher": [],
+			"presentation": {
+				"echo": true,
+				"reveal": "always",
+				"focus": false,
+				"panel": "shared",
+				"showReuseMessage": false,
+				"clear": true
+			}
+		}
+	]
+}

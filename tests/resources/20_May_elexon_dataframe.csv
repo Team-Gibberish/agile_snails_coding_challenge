@@ -1,0 +1,4 @@
+,Time Series ID,Business Type,Power System Resource  Type,Settlement Date,Process Type,Settlement Period,Quantity,Document Type,Curve Type,Resolution,Active Flag,Document ID,Document RevNum
+0,NGET-EMFIP-DGWS-TS-06236494,Solar generation,"""Solar""",2021-05-05,Day Ahead,12,185,Wind and solar forecast,Sequential fixed size block,PT30M,Y,NGET-EMFIP-DGWS-06239766,1
+1,NGET-EMFIP-DGWS-TS-06236492,Wind generation,"""Wind Offshore""",2021-05-05,Day Ahead,12,6917.033,Wind and solar forecast,Sequential fixed size block,PT30M,Y,NGET-EMFIP-DGWS-06239766,1
+2,NGET-EMFIP-DGWS-TS-06236493,Wind generation,"""Wind Onshore""",2021-05-05,Day Ahead,12,4117.835,Wind and solar forecast,Sequential fixed size block,PT30M,Y,NGET-EMFIP-DGWS-06239766,1

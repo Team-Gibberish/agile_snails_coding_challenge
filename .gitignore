@@ -1,0 +1,38 @@
+# Python compiled objects
+*.pyc
+__pycache__/
+
+# Jupyter notebook checkpoints
+.ipynb_checkpoints
+
+# Pytest cache
+.pytest_cache
+
+# Coverage xml
+cov.xml
+.coverage
+
+# Build folders
+build/
+dist/
+*.egg-info/
+
+# API keys
+metoffice-api-key.txt
+
+# Cached Data
+Cached/
+
+# Web development
+**/webpage/node_modules/
+# **/webpage/js/
+**/webpage/yarn.lock
+**/webpage/out/
+**/webpage/tsconfig.tsbuildinfo
+
+# Database data
+mongodb/mongo-app/
+mongodb/mongo-data/
+
+webpage/data/*.csv
+webpage/data/site-generation.dat

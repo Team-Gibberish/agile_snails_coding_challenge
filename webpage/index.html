@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>History</title>
+	<link rel="stylesheet"
+		href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.0.0-beta.45/dist/themes/base.css">
+	<script type="module"
+		src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.0.0-beta.45/dist/shoelace.js"></script>
+	<link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+	<aside class="sidebar">
+		<div>
+		<h1>Bidding Reports</h1>
+		<h2 id="dateTitle"></h2>
+		<sl-button id="buttonDownload" type="success" size="large">
+			<sl-icon slot="prefix" name="download"></sl-icon>
+			Download</sl-button>
+		</div>
+		<!-- <sl-input placeholder="Search..." clearable id="searchBar" list="searchList">
+		</sl-input> -->
+		<div>
+			<div id="navDetails">
+				<!-- <a href="dashboard.html">
+					<sl-details summary="Overview" id="buttonOverview"></sl-details>
+				</a> -->
+				<sl-details summary="History" id="buttonHistory" class="selected" open="">
+					<div class="dates-skeleton">
+						<sl-skeleton></sl-skeleton>
+						<sl-skeleton></sl-skeleton>
+						<sl-skeleton></sl-skeleton>
+					</div>
+				</sl-details>
+			</div>
+		</div>
+		<datalist id="searchList">
+		</datalist>
+	</aside>
+
+	<main>
+		<div id="overlayLoading" class="overlay"></div>
+		<div class="section market">
+			<sl-card class="graph">
+				<div slot="header">
+					<strong>Market Bids</strong>
+				</div>
+				<div class="large">
+					<sl-skeleton effect="pulse" class="market-skeleton"></sl-skeleton>
+					<canvas id="chartMarket" class="hidden"></canvas>
+				</div>
+				<div slot="footer" class="footer">
+					Bids submitted to market using estimations from predicted data. Total bid amount is the estimated going rate of power, multiplied by the required volume. A breakdown of bid composition is available under the green Table of Bids below.
+				</div>
+			</sl-card>
+			<div class="glances">
+				<sl-card id="cardProfit">
+					<p>Profit</p>
+					<h1>£--.--</h1>
+				</sl-card>
+				<sl-card id="cardCarbon">
+					<p>Carbon Saved</p>
+					<h1>--- gCO2 </h1>
+					<p class="info">--.-- gCO2</p>
+				</sl-card>
+			</div>
+			<sl-details summary="Table of Bids">
+				<table id="tableBid"></table>
+			</sl-details>
+		</div>
+		<hr>
+		<div class="section energy">
+			<sl-card class="graph">
+				<div slot="header">
+					<strong>Net Energy Production</strong>
+				</div>
+				<div class="large">
+					<sl-skeleton effect="pulse" class="energy-skeleton"></sl-skeleton>
+					<canvas id="chartEnergyNet" class="hidden"></canvas>
+				</div>
+				<div slot="footer" class="footer">
+					Non-cumulative net energy production after usage is removed. Negative numbers
+					represents energy required to be brought from the grid, and
+					positive numbers represents spare energy after usage from
+					the building. The fainter chart corresponds to predicted values that are generated with machine-learning algorithms.
+				</div>
+			</sl-card>
+			<sl-card class="graph">
+				<div slot="header">
+					<strong>Total Energy Production</strong>
+				</div>
+				<div class="large">
+					<sl-skeleton effect="pulse" class="energy-skeleton"></sl-skeleton>
+					<canvas id="chartEnergyTotal" class="hidden"></canvas>
+				</div>
+				<div slot="footer" class="footer">
+					Graph displaying the power generation and consumption of
+					the local facility. Predicted values are dashed, and are
+					generated from a series of scientific models based of
+					weather data and office usage patterns.
+				</div>
+			</sl-card>
+			<sl-card class="graph">
+				<div slot="header">
+					<strong>Energy Production from Wind Turbines</strong>
+				</div>
+				<div class="small">
+					<sl-skeleton effect="pulse" class="energy-skeleton"></sl-skeleton>
+					<canvas id="chartEnergyWind" class="hidden"></canvas>
+				</div>
+				<div slot="footer" class="footer">
+					Graph displaying the total energy created from all wind turbines in the facility.<br>
+					Predicted values are dashed and are estimated using a combination of real-world<br>
+					 performance curves and a theoretical wind model, alongside met office data from<br>
+					  the nearby weather station (Sennybridge 2).
+				</div>
+			</sl-card>
+			<sl-card class="graph">
+				<div slot="header">
+					<strong>Energy Production from Solar Panels</strong>
+				</div>
+				<div class="small">
+					<sl-skeleton effect="pulse" class="energy-skeleton"></sl-skeleton>
+					<canvas id="chartEnergySolar" class="hidden"></canvas>
+				</div>
+				<div slot="footer" class="footer">
+					Total energy created from all solar panels in the facility. Predicted values are<br>
+					 dashed and are estimated using Global Horizontal Irradiance (GHI) incident on<br>
+					  the site panel array as a function of the time of day and includes the panel<br>
+					   orientation, location and the time of year. Met office data from the nearby<br>
+					    weather station (Sennybridge 2) is used to calculate panel temperature and<br>
+						 factors into panel efficiency.
+				</div>
+			</sl-card>
+		</div>
+	</main>
+	<script src="js/index.js" type="module"></script>
+
+</html>
