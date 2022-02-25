@@ -58,6 +58,7 @@ To start the docker container, make sure you have run the steps under [Installin
 
 ```bash
 docker-compose up --build -d
+```
 
 ## Linting
 
@@ -122,5 +123,3 @@ pleasure be sure that your code conforms!
 - [ ] Run Pytest to ensure tests pass.
 - [ ] Use the linter to ensure standards are followed, along with correct comments.
 - [ ] If changing someone else's files, issue a pull request instead.
-
-```
