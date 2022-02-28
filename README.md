@@ -23,12 +23,11 @@ Currently, only building and installing from source is available.
 
 The conda environment is defined in [environment.yml](./environment.yml)
 
-- To delete an environment, use `conda env remove -n envname`
 - To create an environment use `conda env create ./environment.yml`
 	- This will automatically install all the dependencies to the `sjautobidder`
 		environment.
 - Activate the environment with `conda activate sjautobidder`
-
+- To delete an environment, use `conda env remove -n envname`
 
 ## Building the frontend
 
