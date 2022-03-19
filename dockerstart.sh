@@ -5,4 +5,4 @@
 # present.
 export SJSITE="/home/webpage/"
 python -m sjautobidder &
-gunicorn sjautobidder.reporting.webserver -b '0.0.0.0:80'
+gunicorn sjautobidder.webserver -b '0.0.0.0:80'

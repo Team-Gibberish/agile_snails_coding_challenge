@@ -24,7 +24,7 @@ from flask import Flask, jsonify, make_response
 from flask.wrappers import Response
 from flask_cors import CORS
 
-from cache import cache_get_hashed, cache_save_hashed
+from sjautobidder.cache import cache_get_hashed, cache_save_hashed
 
 application = Flask(__name__)
 

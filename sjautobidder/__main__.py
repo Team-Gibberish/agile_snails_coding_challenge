@@ -51,7 +51,7 @@ def main():
 
     tformat = "%Y-%m-%d %H:%M:%S"
 
-    print("SLIMJaB Autobidder started!")
+    print("Agile Snails Autobidder started!")
     print("Use Ctrl-C to stop.")
 
     # 'Count in' the internal clock
