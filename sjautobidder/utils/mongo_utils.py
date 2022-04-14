@@ -2,11 +2,10 @@
 
 from pymongo import MongoClient
 
-HOST = "0.0.0.0:27017"
-DATABASE_NAME = "slimjab"
-USERNAME = "slimjab"
-PASSWORD = "default"
-
+HOST = "projectdata.sabco.mongodb.net"
+DATABASE_NAME = "CodingChallenge"
+USERNAME = "agilesnails"
+PASSWORD = "agilesnails"
 
 def setup_client() -> MongoClient:
     """Sets up a MongoDB connection object.
@@ -14,7 +13,7 @@ def setup_client() -> MongoClient:
     Returns:
         client (MongoClient)
     """
-    connection_string = f"mongodb://{USERNAME}:{PASSWORD}@{HOST}"
+    connection_string = f"mongodb+srv://{USERNAME}:{PASSWORD}@{HOST}"
     client = MongoClient(connection_string)
     return client
 

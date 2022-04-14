@@ -31,7 +31,7 @@ The conda environment is defined in [environment.yml](./environment.yml)
 
 ## Building the frontend
 
-For details about the frontend, see [webpage/Readme.md](./webpage/Readme.md)
+For details about the frontend, see [webpage/README.md](./webpage/README.md)
 
 ## Installing the package
 
@@ -56,7 +56,8 @@ pip-installable `.whl` format and as a compressed `.tar.gz` folder.
 To start the docker container, make sure you have run the steps under [Installing the package](##Installing-the-package), then navigate to the root of the project and run:
 
 ```bash
-docker-compose up --build -d
+docker build -t codingchallenge .
+docker run -dp 80:80 codingchallenge
 ```
 
 ## Linting

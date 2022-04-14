@@ -5,6 +5,7 @@ import time
 import numpy as np
 
 import sjautobidder.utils.site_utils as site_utils
+import sjautobidder.utils.mongo_utils as mongo_utils
 import sjautobidder.power_integration.power_estimation as power_estimation
 
 
@@ -55,6 +56,7 @@ def main():
     print("Use Ctrl-C to stop.")
 
     # 'Count in' the internal clock
+    # Only starts running the main program at the start of a half-hour interval
     print("Aligning clock...")
     align_time()
 
@@ -63,6 +65,13 @@ def main():
         
         solar_generation, wind_generation, office_demand = site_utils.get_real_generation()
         timestamp = standard_time(dt.datetime.now())
+
+        mongo_utils.mongo_insert_one("site-generation", {
+            "timestamp": timestamp,
+            "solar_generation": solar_generation,
+            "wind_generation": wind_generation,
+            "office_demand": office_demand
+        })
 
         with open("webpage/data/site-generation.dat", 'a') as fout:
             fout.write(f"{timestamp},{solar_generation},{wind_generation},{office_demand}\n")
@@ -90,7 +99,6 @@ def main():
             site_utils.to_csv(
                 orders,
                 filename=f"webpage/data/{dt.datetime.now().strftime('%Y-%m-%d')}-bids"
-                
             )
             # Submit orders
             try:
