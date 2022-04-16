@@ -30,9 +30,5 @@ Cached/
 **/webpage/out/
 **/webpage/tsconfig.tsbuildinfo
 
-# Database data
-mongodb/mongo-app/
-mongodb/mongo-data/
-
 webpage/data/*.csv
 webpage/data/site-generation.dat
