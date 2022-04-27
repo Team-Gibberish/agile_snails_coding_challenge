@@ -265,6 +265,8 @@ def load_data() -> None:
     for file in os.listdir(folder):
         date = file[:10]
         isbid = file[-8:][:-4] == "bids"
+        isreal = file[-8:][:-4] == "real"
+
         if date[:2] != "20" or len(date) != 10 or len(date.split("-")) != 3:
             continue
 
@@ -279,6 +281,8 @@ def load_data() -> None:
         if isbid:
             BID_DATA[date] = {}
             BID_DATA[date]["data"] = data.values.tolist()
+        elif isreal:
+            pass
         else:
             store_energy_day(data, date)
 

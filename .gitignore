@@ -32,3 +32,4 @@ Cached/
 
 webpage/data/*.csv
 webpage/data/site-generation.dat
+webpage/.DS_Store

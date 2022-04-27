@@ -12,6 +12,7 @@ dependencies:
   - pip
   - pymongo[srv]
   - dnspython
+  - scikit-learn
   - pip:
     - pytest-coverage
     - build
