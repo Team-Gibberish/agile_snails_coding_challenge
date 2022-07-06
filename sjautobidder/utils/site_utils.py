@@ -142,7 +142,7 @@ def submit_orders(orders):
     AIMLAC_CC_MACHINE = "34.72.51.59"
     assert AIMLAC_CC_MACHINE is not None
     host = f"http://{AIMLAC_CC_MACHINE}"
-    key = "SLIMJaB2278923441"
+    key = "AgileSnails8394587201"
 
     message = requests.post(
         url=host + "/auction/bidding/set", json={"key": key, "orders": orders}

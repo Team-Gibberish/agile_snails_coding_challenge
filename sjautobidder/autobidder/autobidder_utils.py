@@ -7,6 +7,7 @@ import datetime as dt
 import numpy as np
 import pickle as p
 import pandas as pd
+import sklearn
 
 import sjautobidder.elexon_api.elexon_utils as elexon_utils
 

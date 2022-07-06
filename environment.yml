@@ -10,7 +10,9 @@ dependencies:
   - prospector
   - flask
   - pip
-  - pymongo
+  - pymongo[srv]
+  - dnspython
+  - scikit-learn
   - pip:
     - pytest-coverage
     - build
