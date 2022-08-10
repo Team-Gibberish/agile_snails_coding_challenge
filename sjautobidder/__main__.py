@@ -55,6 +55,16 @@ def main():
     print("Agile Snails Autobidder started!")
     print("Use Ctrl-C to stop.")
 
+    solar_generation, wind_generation, office_demand = site_utils.get_real_generation()
+    timestamp = standard_time(dt.datetime.now())
+
+    mongo_utils.mongo_insert_one("site-generation", {
+        "timestamp": timestamp,
+        "solar_generation": solar_generation,
+        "wind_generation": wind_generation,
+        "office_demand": office_demand
+    })
+
     # 'Count in' the internal clock
     # Only starts running the main program at the start of a half-hour interval
     print("Aligning clock...")
