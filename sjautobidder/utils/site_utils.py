@@ -5,6 +5,11 @@ Script containing minor `helper' functions related to site and market operation.
 @author: Ben Page
 """
 
+from asyncio.log import logger
+import logging
+logging.basicConfig(level=logging.INFO, filename='site_utils.log', filemode='w', format='%(asctime)s-%(name)s-%(levelname)s - %(message)s')
+logger = logging.getLogger(__name__)
+
 import datetime as dt
 import numpy as np
 import pandas as pd
@@ -147,14 +152,14 @@ def submit_orders(orders):
     message = requests.post(
         url=host + "/auction/bidding/set", json={"key": key, "orders": orders}
     )
-    print(message.content)
+    logging.info(message.content)
     data = message.json()
-    print("Posting bids:")
-    print("POST JSON reply:", data)
+    logging.info("Posting bids:")
+    logging.info("POST JSON reply:", data)
     assert data["accepted"] >= 1
     assert data["message"] == ""
 
-    print("done.")
+    logging.info("done.")
 
 
 def get_grid_intensity(date: (str), period=None):
@@ -220,4 +225,4 @@ def to_csv(data: dict, filename=None):
     table.to_csv(filename + ".csv", index=False)
 
 if __name__ == "__main__":
-    print(get_real_generation())
+    logging.info(get_real_generation())

@@ -36,3 +36,7 @@ Cached/
 webpage/data/*.csv
 webpage/data/site-generation.dat
 webpage/.DS_Store
+
+# Logs
+app.log
+site_utils.log

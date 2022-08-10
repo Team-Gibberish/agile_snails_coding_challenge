@@ -1,5 +1,10 @@
 """Power prediction and automatic bidding application."""
 
+from asyncio.log import logger
+import logging
+logging.basicConfig(level=logging.INFO, filename='app.log', filemode='w', format='%(asctime)s-%(name)s-%(levelname)s - %(message)s')
+logger = logging.getLogger(__name__)
+
 import datetime as dt
 import time
 import numpy as np
@@ -52,12 +57,12 @@ def main():
 
     tformat = "%Y-%m-%d %H:%M:%S"
 
-    print("Agile Snails Autobidder started!")
-    print("Use Ctrl-C to stop.")
+    logging.info("Agile Snails Autobidder started!")
+    logging.info("Use Ctrl-C to stop.")
 
+    # Generates a mongo entry on first run
     solar_generation, wind_generation, office_demand = site_utils.get_real_generation()
     timestamp = standard_time(dt.datetime.now())
-
     mongo_utils.mongo_insert_one("site-generation", {
         "timestamp": timestamp,
         "solar_generation": solar_generation,
@@ -67,11 +72,11 @@ def main():
 
     # 'Count in' the internal clock
     # Only starts running the main program at the start of a half-hour interval
-    print("Aligning clock...")
+    logging.info("Aligning clock...")
     align_time()
 
     while True:
-        print(f"{'TIME'.center(20)}| STATUS")
+        logging.info(f"{'TIME'.center(20)}| STATUS")
         
         solar_generation, wind_generation, office_demand = site_utils.get_real_generation()
         timestamp = standard_time(dt.datetime.now())
@@ -88,7 +93,7 @@ def main():
 
         # Fetch and submit orders
         if int(time.strftime("%H")) == 7 and int(time.strftime("%M")) < 5:
-            print(f"{dt.datetime.now().strftime(tformat)} | Submitting bids...")
+            logging.info(f"{dt.datetime.now().strftime(tformat)} | Submitting bids...")
             # Update MongoDB with newest forecast
             net_energy, price_prediction = power_estimation.main()
 
@@ -106,23 +111,27 @@ def main():
                 (net_energy + np.roll(net_energy, -1))[::2],
                 price_prediction[::2]
             )
-            site_utils.to_csv(
-                orders,
-                filename=f"webpage/data/{dt.datetime.now().strftime('%Y-%m-%d')}-bids"
-            )
+
+            for order in orders:
+                mongo_utils.mongo_insert_one("orders", order)
+
+            # site_utils.to_csv(
+            #     orders,
+            #     filename=f"webpage/data/{dt.datetime.now().strftime('%Y-%m-%d')}-bids"
+            # )
+
             # Submit orders
             try:
                 site_utils.submit_orders(orders)
             except ValueError:
-                print("Could not submit bids! Continuing...")
+                logging.error("Could not submit bids! Continuing...")
 
             # Fetch  previous day's orders
-
             prev_orders = site_utils.get_clearout()
             site_utils.to_csv(prev_orders, filename=f"webpage/data/{dt.date.today()}-real")
             
         for _ in range(26):
-            print(f"{dt.datetime.now().strftime(tformat)} |\tsj running")
+            logging.info(f"{dt.datetime.now().strftime(tformat)} |\tsj running")
             time.sleep(60)
 
         align_time()  # Adjust for clock jitter
