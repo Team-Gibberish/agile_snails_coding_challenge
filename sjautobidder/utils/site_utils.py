@@ -6,7 +6,6 @@ Script containing minor `helper' functions related to site and market operation.
 """
 
 import logging
-logging.basicConfig(level=logging.INFO, filename='site_utils.log', filemode='w', format='%(asctime)s-%(name)s-%(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 
 import datetime as dt
@@ -30,7 +29,7 @@ def get_real_generation():
     AIMLAC_CC_MACHINE = "34.72.51.59"
     assert AIMLAC_CC_MACHINE is not None
     host = f"http://{AIMLAC_CC_MACHINE}"
-
+    logger.info("test")
     response = requests.get(url=host + "/sim/llanwrtyd-wells")
     assert len(response.json()) > 0
 
