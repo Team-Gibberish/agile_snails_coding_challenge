@@ -5,7 +5,6 @@ Script containing minor `helper' functions related to site and market operation.
 @author: Ben Page
 """
 
-from asyncio.log import logger
 import logging
 logging.basicConfig(level=logging.INFO, filename='site_utils.log', filemode='w', format='%(asctime)s-%(name)s-%(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
@@ -148,7 +147,8 @@ def submit_orders(orders):
     assert AIMLAC_CC_MACHINE is not None
     host = f"http://{AIMLAC_CC_MACHINE}"
     key = "AgileSnails8394587201"
-
+    for order in orders:
+        order["_id"] = str(order["_id"])
     message = requests.post(
         url=host + "/auction/bidding/set", json={"key": key, "orders": orders}
     )

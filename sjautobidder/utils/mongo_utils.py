@@ -13,7 +13,7 @@ def setup_client() -> MongoClient:
     Returns:
         client (MongoClient)
     """
-    connection_string = f"mongodb+srv://{USERNAME}:{PASSWORD}@{HOST}"
+    connection_string = f"mongodb+srv://{USERNAME}:{PASSWORD}@{HOST}/CodingChallenge?retryWrites=true&w=majority&tlsInsecure=true"
     client = MongoClient(connection_string)
     return client
 
