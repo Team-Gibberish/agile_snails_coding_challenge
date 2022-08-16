@@ -88,8 +88,8 @@ def main():
             "office_demand": office_demand
         })
 
-        with open("webpage/data/site-generation.dat", 'a') as fout:
-            fout.write(f"{timestamp},{solar_generation},{wind_generation},{office_demand}\n")
+        #with open("webpage/data/site-generation.dat", 'a') as fout:
+        #    fout.write(f"{timestamp},{solar_generation},{wind_generation},{office_demand}\n")
 
         # Fetch and submit orders
         if int(time.strftime("%H")) == 7 and int(time.strftime("%M")) < 5:
@@ -128,7 +128,7 @@ def main():
 
             # Fetch  previous day's orders
             prev_orders = site_utils.get_clearout()
-            site_utils.to_csv(prev_orders, filename=f"webpage/data/{dt.date.today()}-real")
+            #site_utils.to_csv(prev_orders, filename=f"webpage/data/{dt.date.today()}-real")
             
         for _ in range(26):
             logging.info(f"{dt.datetime.now().strftime(tformat)} |\tsj running")
