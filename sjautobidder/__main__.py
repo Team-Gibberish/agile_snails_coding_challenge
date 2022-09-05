@@ -111,6 +111,7 @@ def main():
                 (net_energy + np.roll(net_energy, -1))[::2],
                 price_prediction[::2]
             )
+            logging.info("Adding bids to mongoDB")
 
             for order in orders:
                 mongo_utils.mongo_insert_one("orders", order)

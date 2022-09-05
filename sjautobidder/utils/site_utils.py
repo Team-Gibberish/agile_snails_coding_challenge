@@ -26,7 +26,7 @@ def get_real_generation():
         office_demand (float)    : Current office demand in kWh.
     """
 
-    AIMLAC_CC_MACHINE = "34.72.51.59"
+    AIMLAC_CC_MACHINE = "35.184.158.144"
     assert AIMLAC_CC_MACHINE is not None
     host = f"http://{AIMLAC_CC_MACHINE}"
     logger.info("test")
@@ -62,7 +62,7 @@ def get_clearout():
     start_date = dt.date.today() - dt.timedelta(days=1)
     end_date = dt.date.today() + dt.timedelta(days=1)
     
-    AIMLAC_CC_MACHINE = "34.72.51.59"
+    AIMLAC_CC_MACHINE = "35.184.158.144"
     assert AIMLAC_CC_MACHINE is not None
     host = f"http://{AIMLAC_CC_MACHINE}"
 
@@ -142,18 +142,18 @@ def get_orders(
 def submit_orders(orders):
     """Submits orders via the site API"""
 
-    AIMLAC_CC_MACHINE = "34.72.51.59"
+    AIMLAC_CC_MACHINE = "35.184.158.144"
     assert AIMLAC_CC_MACHINE is not None
     host = f"http://{AIMLAC_CC_MACHINE}"
     key = "AgileSnails8394587201"
-    for order in orders:
-        order["_id"] = str(order["_id"])
+    #for order in orders:
+    #    order["_id"] = str(order["_id"])
+    logging.info("Posting bids:")
     message = requests.post(
         url=host + "/auction/bidding/set", json={"key": key, "orders": orders}
     )
     logging.info(message.content)
     data = message.json()
-    logging.info("Posting bids:")
     logging.info("POST JSON reply:", data)
     assert data["accepted"] >= 1
     assert data["message"] == ""
