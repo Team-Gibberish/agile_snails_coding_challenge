@@ -146,8 +146,8 @@ def submit_orders(orders):
     assert AIMLAC_CC_MACHINE is not None
     host = f"http://{AIMLAC_CC_MACHINE}"
     key = "AgileSnails8394587201"
-    #for order in orders:
-    #    order["_id"] = str(order["_id"])
+    for order in orders:
+       order["_id"] = str(order["_id"])
     logging.info("Posting bids:")
     message = requests.post(
         url=host + "/auction/bidding/set", json={"key": key, "orders": orders}

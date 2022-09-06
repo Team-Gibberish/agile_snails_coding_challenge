@@ -9,6 +9,9 @@ interval. Results and forecast are written to MongoDB in the
 @author: Matt
 """
 
+import logging
+logger = logging.getLogger(__name__)
+
 import datetime as dt
 import numpy as np
 
@@ -19,7 +22,6 @@ from sjautobidder.met_office_api.api_interpolation import get_forecast
 from sjautobidder.autobidder.autobidder_utils import get_price_forecast
 from sjautobidder.utils.mongo_utils import mongo_insert_one
 from sjautobidder.utils.panda_utils import df_to_dict
-from sjautobidder.utils.site_utils import to_csv
 
 
 def main():
@@ -53,18 +55,21 @@ def main():
     energy_predictions["NetEnergy"] = net_energy.tolist()
     energy_predictions["Bid Price"] = price_prediction
     # Write to csv
-    to_csv(energy_predictions, filename=f"webpage/data/{dt.datetime.now().strftime('%Y-%m-%d')}")
+    # to_csv(energy_predictions, filename=f"webpage/data/{dt.datetime.now().strftime('%Y-%m-%d')}")
     # to_csv(orders, filename=f"{dt.datetime.now().strftime('%Y-%m-%d')}-bids")
+    
+    logging.info("Writing power estimations to mongoDB:")
+
     # Write to mongodb
     datetime_calculated = dt.datetime.now().strftime("%Y-%m-%dT%H:%M:%SZ")
-    """
+    
     mongo_data = {
         "datetime_calculated": datetime_calculated,
         "predictions": energy_predictions,
         "forecast": df_to_dict(forecast),
     }
-    """
-    #mongo_insert_one("energy_predictions", mongo_data)  # Returns True if successful
+    mongo_insert_one("energy_predictions", mongo_data)  # Returns True if successful
+    logging.info("Writing power estimations successful")
 
     return net_energy, price_prediction
 

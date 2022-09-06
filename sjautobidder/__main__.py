@@ -57,10 +57,10 @@ def main():
 
     tformat = "%Y-%m-%d %H:%M:%S"
 
-    logging.info("Agile Snails Autobidder started!")
+    logging.info("Agile Snails Autobidder started! Running version 1.2")
     logging.info("Use Ctrl-C to stop.")
 
-    # Generates a mongo entry on first run
+    # Uncomment to generate a mongo entry on first run to test database
     # solar_generation, wind_generation, office_demand = site_utils.get_real_generation()
     # timestamp = standard_time(dt.datetime.now())
     # mongo_utils.mongo_insert_one("sites", {
