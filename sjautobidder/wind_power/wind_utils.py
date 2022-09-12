@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Utility functions for calculating predicted solar panel power output.
+"""Utility functions for calculating predicted wind turbine power output.
 
 @author: Ben Page, Jacob Elford
 """
