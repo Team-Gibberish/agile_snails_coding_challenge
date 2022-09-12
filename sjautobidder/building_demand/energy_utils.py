@@ -49,7 +49,7 @@ def get_active_office_mask(start_time: datetime.datetime) -> List[bool]:
     mask = [False for _ in range(48)]
 
     day_start = datetime.time(9, 0, 0)
-    day_end = datetime.time(17, 0, 0)
+    day_end = datetime.time(17, 30, 0)
 
     for index, val in enumerate(following_24_hours_times):
         # val.weekday() < 5 checks the datetime in question isn't on the weekend
