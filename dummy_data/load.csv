@@ -1,0 +1,2 @@
+,Time Series ID,Settlement Date,Settlement Period,Quantity,Secondary Quantity (MAW),Document Type,Business Type,Process Type,object Aggregation,Curve Type,Resolution,Unit of Measure,Active Flag,Document ID,Document RevNum
+0,NGET-EMFIP-DATL-TS-06240160,2022-11-15,16,33481,,System total load,Consumption,Day Ahead,Area,Sequential fixed size block,PT30M,Mega watt,Y,NGET-EMFIP-DATL-16239793,1
