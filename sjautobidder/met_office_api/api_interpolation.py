@@ -47,20 +47,13 @@ def get_metoffice_key() -> str:
     raise RuntimeError
 
 
-def get_forecast():
-    """Queries the met office API, interpolates the response to 1 hour intervals,
-    and returns the results for the next 11pm-11pm interval.
-
-    Returns: pd.DataFrame: Hourly forcasts for the next 23:00 - 23:00 interval
-    """
-
+def fetch_forecast():
     api_key = get_metoffice_key()
 
     base_metoffice_url = "http://datapoint.metoffice.gov.uk/public/data/"
     resource = "val/wxfcs/all/json/3507"
     url = base_metoffice_url + resource
 
-    
     # Attempt to get from cache
     # response = cache_get_hashed(f"{url}, params=res: 3hourly, key: {api_key}")
     response = None
@@ -70,6 +63,13 @@ def get_forecast():
         # cache_save_hashed(f"{url}, params=res: 3hourly, key: {api_key}", response)
 
     assert response.status_code == 200  # check response is good
-    output_forecast = interpolate_api_response(response)  # get interpolated forecast
+    return response
 
-    return output_forecast
+
+def get_forecast():
+    """Queries the met office API, interpolates the response to 1 hour intervals,
+    and returns the results for the next 11pm-11pm interval.
+
+    Returns: pd.DataFrame: Hourly forcasts for the next 23:00 - 23:00 interval
+    """
+    return interpolate_api_response(fetch_forecast())
