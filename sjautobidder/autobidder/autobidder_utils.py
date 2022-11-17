@@ -77,11 +77,12 @@ def get_forecast(date: str, period: int) -> pd.DataFrame:
 
     # Fetch generation per fuel type forecast
     gen_forecast = elexon_utils.get_bmrs_report("B1620", date, period)
-    gen_forecast = elexon_utils.df_unstacker(gen_forecast,
-                                             ["Settlement Date",
-                                              "Settlement Period"],
-                                             "Power System Resource  Type",
-                                             "Quantity")
+    gen_forecast = elexon_utils.df_unstacker(
+        gen_forecast,
+        ["Settlement Date", "Settlement Period"],
+        "Power System Resource  Type",
+        "Quantity",
+    )
 
     """
     # Fetch wind and solar generation forecast
@@ -96,16 +97,15 @@ def get_forecast(date: str, period: int) -> pd.DataFrame:
     # Fetch forecast system load
 
     load_forecast = elexon_utils.get_bmrs_report("B0620", date, period)
-    load_forecast = load_forecast[["Settlement Date",
-                                   "Settlement Period",
-                                   "Quantity"]]
+    load_forecast = load_forecast[["Settlement Date", "Settlement Period", "Quantity"]]
 
     # Rename to conform to pattern
     load_forecast = load_forecast.rename(columns={"Quantity": "Load"})
 
     # Merge dataframes and clean
-    output = pd.merge(gen_forecast, load_forecast, on=["Settlement Date",
-                                                       "Settlement Period"])
+    output = pd.merge(
+        gen_forecast, load_forecast, on=["Settlement Date", "Settlement Period"]
+    )
 
     output.loc[:, "Settlement Date"] = pd.to_datetime(output["Settlement Date"])
     output.loc[:, "Settlement Date"] -= dt.datetime(1970, 1, 1)  # Since epoch
@@ -113,10 +113,22 @@ def get_forecast(date: str, period: int) -> pd.DataFrame:
 
     # Pattern dictates current feature arrangement for autobidder model
 
-    pattern = ['Settlement Date', 'Settlement Period', 'Biomass',
-               'Hydro Pumped Storage', 'Hydro Run-of-river and poundage',
-               'Fossil Hard coal', 'Fossil Gas', 'Fossil Oil', 'Nuclear',
-               'Other', 'Load', 'Solar', 'Wind Offshore', 'Wind Onshore']
+    pattern = [
+        "Settlement Date",
+        "Settlement Period",
+        "Biomass",
+        "Hydro Pumped Storage",
+        "Hydro Run-of-river and poundage",
+        "Fossil Hard coal",
+        "Fossil Gas",
+        "Fossil Oil",
+        "Nuclear",
+        "Other",
+        "Load",
+        "Solar",
+        "Wind Offshore",
+        "Wind Onshore",
+    ]
 
     """
     pattern = ["Settlement Date", "Settlement Period", "Load", "Solar",
@@ -159,12 +171,11 @@ def get_price_estimate(date=None, period=None) -> (str, int, float):
     # Maximum time delta supported by ML model
     delta = (date - dt.datetime.now()).days * 48 + period
 
-    if (delta > 2*48):
-        price = 'NaN'
+    if delta > 2 * 48:
+        price = "NaN"
     else:
         lagged_date = date + dt.timedelta(days=-3)
-        forecast = get_forecast(dt.datetime.strftime(lagged_date, "%Y-%m-%d"),
-                                period)
+        forecast = get_forecast(dt.datetime.strftime(lagged_date, "%Y-%m-%d"), period)
         rescaled = scaler.transform(forecast.values[:])
 
         price = model.predict(rescaled)[0]
