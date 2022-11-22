@@ -1,0 +1,253 @@
+{
+    "SiteRep": {
+        "Wx": {
+            "Param": [
+                {
+                    "name": "T",
+                    "units": "C",
+                    "$": "Temperature"
+                },
+                {
+                    "name": "S",
+                    "units": "mph",
+                    "$": "Wind Speed"
+                },
+                {
+                    "name": "W",
+                    "units": "",
+                    "$": "Weather Type"
+                }
+            ]
+        },
+        "DV": {
+            "dataDate": "{date}",
+            "type": "Forecast",
+            "Location": {
+                "lat": "{lat}",
+                "lon": "{lon}",
+                "Period": [
+                    {
+                        "type": "Day",
+                        "value": "{date}",
+                        "Rep": [
+                            {
+                                "D": "irrelevant",
+                                "F": "0.0",
+                                "G": "0.0",
+                                "H": "0.0",
+                                "Pp": "0.0",
+                                "V": "irrelevant",
+                                "U": "0",
+                                "$": "0.0",
+                                "S": "{windspeed[0]}",
+                                "T": "{temperature[0]}",
+                                "W": "{weathercode[0]}"
+                            },
+                            {
+                                "D": "irrelevant",
+                                "F": "0.0",
+                                "G": "0.0",
+                                "H": "0.0",
+                                "Pp": "0.0",
+                                "V": "irrelevant",
+                                "U": "0",
+                                "$": "0.0",
+                                "S": "{windspeed[1]}",
+                                "T": "{temperature[1]}",
+                                "W": "{weathercode[1]}"
+                            },
+                            {
+                                "D": "irrelevant",
+                                "F": "0.0",
+                                "G": "0.0",
+                                "H": "0.0",
+                                "Pp": "0.0",
+                                "V": "irrelevant",
+                                "U": "0",
+                                "$": "0.0",
+                                "S": "{windspeed[2]}",
+                                "T": "{temperature[2]}",
+                                "W": "{weathercode[2]}"
+                            },
+                            {
+                                "D": "irrelevant",
+                                "F": "0.0",
+                                "G": "0.0",
+                                "H": "0.0",
+                                "Pp": "0.0",
+                                "V": "irrelevant",
+                                "U": "0",
+                                "$": "0.0",
+                                "S": "{windspeed[3]}",
+                                "T": "{temperature[3]}",
+                                "W": "{weathercode[3]}"
+                            },
+                            {
+                                "D": "irrelevant",
+                                "F": "0.0",
+                                "G": "0.0",
+                                "H": "0.0",
+                                "Pp": "0.0",
+                                "V": "irrelevant",
+                                "U": "0",
+                                "$": "0.0",
+                                "S": "{windspeed[4]}",
+                                "T": "{temperature[4]}",
+                                "W": "{weathercode[4]}"
+                            },
+                            {
+                                "D": "irrelevant",
+                                "F": "0.0",
+                                "G": "0.0",
+                                "H": "0.0",
+                                "Pp": "0.0",
+                                "V": "irrelevant",
+                                "U": "0",
+                                "$": "0.0",
+                                "S": "{windspeed[5]}",
+                                "T": "{temperature[5]}",
+                                "W": "{weathercode[5]}"
+                            },
+                            {
+                                "D": "irrelevant",
+                                "F": "0.0",
+                                "G": "0.0",
+                                "H": "0.0",
+                                "Pp": "0.0",
+                                "V": "irrelevant",
+                                "U": "0",
+                                "$": "0.0",
+                                "S": "{windspeed[6]}",
+                                "T": "{temperature[6]}",
+                                "W": "{weathercode[6]}"
+                            },
+                            {
+                                "D": "irrelevant",
+                                "F": "0.0",
+                                "G": "0.0",
+                                "H": "0.0",
+                                "Pp": "0.0",
+                                "V": "irrelevant",
+                                "U": "0",
+                                "$": "0.0",
+                                "S": "{windspeed[7]}",
+                                "T": "{temperature[7]}",
+                                "W": "{weathercode[7]}"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "Day",
+                        "value": "{date_plus_one}",
+                        "Rep": [
+                            {
+                                "D": "irrelevant",
+                                "F": "0.0",
+                                "G": "0.0",
+                                "H": "0.0",
+                                "Pp": "0.0",
+                                "V": "irrelevant",
+                                "U": "0",
+                                "$": "0.0",
+                                "S": "{windspeed[8]}",
+                                "T": "{temperature[8]}",
+                                "W": "{weathercode[8]}"
+                            },
+                            {
+                                "D": "irrelevant",
+                                "F": "0.0",
+                                "G": "0.0",
+                                "H": "0.0",
+                                "Pp": "0.0",
+                                "V": "irrelevant",
+                                "U": "0",
+                                "$": "0.0",
+                                "S": "{windspeed[9]}",
+                                "T": "{temperature[9]}",
+                                "W": "{weathercode[9]}"
+                            },
+                            {
+                                "D": "irrelevant",
+                                "F": "0.0",
+                                "G": "0.0",
+                                "H": "0.0",
+                                "Pp": "0.0",
+                                "V": "irrelevant",
+                                "U": "0",
+                                "$": "0.0",
+                                "S": "{windspeed[10]}",
+                                "T": "{temperature[10]}",
+                                "W": "{weathercode[10]}"
+                            },
+                            {
+                                "D": "irrelevant",
+                                "F": "0.0",
+                                "G": "0.0",
+                                "H": "0.0",
+                                "Pp": "0.0",
+                                "V": "irrelevant",
+                                "U": "0",
+                                "$": "0.0",
+                                "S": "{windspeed[11]}",
+                                "T": "{temperature[11]}",
+                                "W": "{weathercode[11]}"
+                            },
+                            {
+                                "D": "irrelevant",
+                                "F": "0.0",
+                                "G": "0.0",
+                                "H": "0.0",
+                                "Pp": "0.0",
+                                "V": "irrelevant",
+                                "U": "0",
+                                "$": "0.0",
+                                "S": "{windspeed[12]}",
+                                "T": "{temperature[12]}",
+                                "W": "{weathercode[12]}"
+                            },
+                            {
+                                "D": "irrelevant",
+                                "F": "0.0",
+                                "G": "0.0",
+                                "H": "0.0",
+                                "Pp": "0.0",
+                                "V": "irrelevant",
+                                "U": "0",
+                                "$": "0.0",
+                                "S": "{windspeed[13]}",
+                                "T": "{temperature[13]}",
+                                "W": "{weathercode[13]}"
+                            },
+                            {
+                                "D": "irrelevant",
+                                "F": "0.0",
+                                "G": "0.0",
+                                "H": "0.0",
+                                "Pp": "0.0",
+                                "V": "irrelevant",
+                                "U": "0",
+                                "$": "0.0",
+                                "S": "{windspeed[14]}",
+                                "T": "{temperature[14]}",
+                                "W": "{weathercode[14]}"
+                            },
+                            {
+                                "D": "irrelevant",
+                                "F": "0.0",
+                                "G": "0.0",
+                                "H": "0.0",
+                                "Pp": "0.0",
+                                "V": "irrelevant",
+                                "U": "0",
+                                "$": "0.0",
+                                "S": "{windspeed[15]}",
+                                "T": "{temperature[15]}",
+                                "W": "{weathercode[15]}"
+                            }
+                        ]
+                    }
+                ]
+            }
+        }
+    }
+}
