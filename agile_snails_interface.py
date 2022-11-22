@@ -1,5 +1,6 @@
 import datetime as dt
 import json
+from pathlib import Path
 from typing import Any, Dict
 
 import pandas as pd
@@ -12,12 +13,13 @@ from sjautobidder.power_integration.power_estimation import main as estimate_pow
 # without the need to set up API keys and have an internet connection. You can
 # safely ignore this part for now.
 
+DATA_DIRECTORY = Path(__file__).absolute().parent / "dummy_data"
 
-MARKET_DATAFILE = "dummy_data/market_index.csv"
-LOAD_TEMPLATE = "dummy_data/load_template.csv"
-GENERATION_TEMPLATE = "dummy_data/generation_template.csv"
-METOFFICE_TEMPLATE = "dummy_data/met_office_template.json"
-METOFFICE_DATAFILE = "dummy_data/weather_mock.csv"
+MARKET_DATAFILE = DATA_DIRECTORY / "market_index.csv"
+LOAD_TEMPLATE = DATA_DIRECTORY / "load_template.csv"
+GENERATION_TEMPLATE = DATA_DIRECTORY / "generation_template.csv"
+METOFFICE_TEMPLATE = DATA_DIRECTORY / "met_office_template.json"
+METOFFICE_DATAFILE = DATA_DIRECTORY / "weather_mock.csv"
 LATTITUDE = 52.1051
 LONGITUDE = -3.6680
 
