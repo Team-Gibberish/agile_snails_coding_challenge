@@ -1,0 +1,12 @@
+,Document Type,Business Type,Process Type,Time Series ID,Quantity,Curve Type,Resolution,Settlement Date,Settlement Period,Power System Resource  Type,Active Flag,Document ID,Document RevNum
+0,Actual generation per type,Solar generation,Realised,NGET-EMFIP-AGPT-TS-22086696,0,Sequential fixed size block,PT30M,2022-11-14,48,"""Solar""",Y,NGET-EMFIP-AGPT-06415440,1
+1,Actual generation per type,Wind generation,Realised,NGET-EMFIP-AGPT-TS-22086697,158.969,Sequential fixed size block,PT30M,2022-11-14,48,"""Wind Offshore""",Y,NGET-EMFIP-AGPT-06415440,1
+2,Actual generation per type,Wind generation,Realised,NGET-EMFIP-AGPT-TS-22086698,2016.416,Sequential fixed size block,PT30M,2022-11-14,48,"""Wind Onshore""",Y,NGET-EMFIP-AGPT-06415440,1
+3,Actual generation per type,Production,Realised,NGET-EMFIP-AGPT-TS-22086699,169,Sequential fixed size block,PT30M,2022-11-14,48,"""Other""",Y,NGET-EMFIP-AGPT-06415440,1
+4,Actual generation per type,Production,Realised,NGET-EMFIP-AGPT-TS-22086700,4608,Sequential fixed size block,PT30M,2022-11-14,48,"""Nuclear""",Y,NGET-EMFIP-AGPT-06415440,1
+5,Actual generation per type,Production,Realised,NGET-EMFIP-AGPT-TS-22086701,0,Sequential fixed size block,PT30M,2022-11-14,48,"""Fossil Oil""",Y,NGET-EMFIP-AGPT-06415440,1
+6,Actual generation per type,Production,Realised,NGET-EMFIP-AGPT-TS-22086702,8309,Sequential fixed size block,PT30M,2022-11-14,48,"""Fossil Gas""",Y,NGET-EMFIP-AGPT-06415440,1
+7,Actual generation per type,Production,Realised,NGET-EMFIP-AGPT-TS-22086703,0,Sequential fixed size block,PT30M,2022-11-14,48,"""Fossil Hard coal""",Y,NGET-EMFIP-AGPT-06415440,1
+8,Actual generation per type,Production,Realised,NGET-EMFIP-AGPT-TS-22086704,577,Sequential fixed size block,PT30M,2022-11-14,48,"""Hydro Run-of-river and poundage""",Y,NGET-EMFIP-AGPT-06415440,1
+9,Actual generation per type,Production,Realised,NGET-EMFIP-AGPT-TS-22086705,0,Sequential fixed size block,PT30M,2022-11-14,48,"""Hydro Pumped Storage""",Y,NGET-EMFIP-AGPT-06415440,1
+10,Actual generation per type,Production,Realised,NGET-EMFIP-AGPT-TS-22086706,2113,Sequential fixed size block,PT30M,2022-11-14,48,"""Biomass""",Y,NGET-EMFIP-AGPT-06415440,1
