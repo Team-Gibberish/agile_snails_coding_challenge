@@ -8,6 +8,7 @@ import numpy as np
 import pickle as p
 import pandas as pd
 import sklearn
+from pathlib import Path
 
 import sjautobidder.elexon_api.elexon_utils as elexon_utils
 
@@ -151,11 +152,11 @@ def get_price_estimate(date=None, period=None) -> (str, int, float):
     """
 
     # Load autobidder ML model
-    with open("sjautobidder/autobidder/model.p", "rb") as handle:
+    with open(Path(__file__).absolute().parent / "model.p", "rb") as handle:
         model = p.load(handle)
 
     # Load data scaler for autobidder
-    with open("sjautobidder/autobidder/scaler.p", "rb") as handle:
+    with open(Path(__file__).absolute().parent / "scaler.p", "rb") as handle:
         scaler = p.load(handle)
 
     if date is None:

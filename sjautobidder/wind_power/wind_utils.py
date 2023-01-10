@@ -7,6 +7,7 @@
 import os
 import pickle as p
 from typing import Union
+from pathlib import Path
 
 import numpy as np
 import pandas as pd
@@ -58,7 +59,7 @@ def get_wind_power(windspeed: Union[list, np.ndarray, pd.Series, float],
 
     n_turbines = 6  # Number of active turbines
 
-    model_path = "sjautobidder/wind_power/model.p"
+    model_path = Path(__file__).absolute().parent / "model.p"
     hellman_exp = 0.34  # Hellman exponent for static air above inhabited areas
     assert os.path.isfile(model_path)  # Assert model exists
     assert isinstance(windspeed, (list, np.ndarray, float, pd.Series))
