@@ -65,7 +65,7 @@ Line #      Hits         Time  Per Hit   % Time  Line Contents
     59                                           
     60                                               return None
 
-Total time: 3.34612 s
+Total time: 2.81143 s
 File: /home/chanju/Dropbox/Lab/swansea/Social/AIMLAC/CodingChallenge/TeamGibberish/solutions/agile_snails_coding_challenge/sjautobidder/autobidder/autobidder_utils.py
 Function: get_forecast at line 62
 
@@ -85,19 +85,19 @@ Line #      Hits         Time  Per Hit   % Time  Line Contents
     73                                                                             according to model pattern.
     74                                               """
     75                                           
-    76        49         59.5      1.2      0.0      assert isinstance(date, str)
-    77        49         26.6      0.5      0.0      assert isinstance(period, int)
+    76        49         50.1      1.0      0.0      assert isinstance(date, str)
+    77        49         25.8      0.5      0.0      assert isinstance(period, int)
     78                                           
     79                                               # Fetch generation per fuel type forecast
-    80        49    1366872.4  27895.4     40.8      gen_forecast = elexon_utils.get_bmrs_report("B1620", date, period)
-    81        49     564627.2  11523.0     16.9      gen_forecast = elexon_utils.df_unstacker(
-    82        49         11.2      0.2      0.0          gen_forecast,
-    83        49         24.2      0.5      0.0          ["Settlement Date", "Settlement Period"],
-    84        49         12.9      0.3      0.0          "Power System Resource  Type",
-    85        49          8.0      0.2      0.0          "Quantity",
+    80        49    1112163.0  22697.2     39.6      gen_forecast = elexon_utils.get_bmrs_report("B1620", date, period)
+    81        49     450824.7   9200.5     16.0      gen_forecast = elexon_utils.df_unstacker(
+    82        49          9.4      0.2      0.0          gen_forecast,
+    83        49         19.0      0.4      0.0          ["Settlement Date", "Settlement Period"],
+    84        49          8.1      0.2      0.0          "Power System Resource  Type",
+    85        49          7.4      0.2      0.0          "Quantity",
     86                                               )
     87                                           
-    88        49         32.1      0.7      0.0      """
+    88        49         19.3      0.4      0.0      """
     89                                               # Fetch wind and solar generation forecast
     90                                               gen_forecast = elexon_utils.get_bmrs_report("B1440", date, period)
     91                                               gen_forecast = gen_forecast[gen_forecast["Process Type"] == "Day Ahead"]
@@ -109,24 +109,24 @@ Line #      Hits         Time  Per Hit   % Time  Line Contents
     97                                               """
     98                                               # Fetch forecast system load
     99                                           
-   100        49    1077343.1  21986.6     32.2      load_forecast = elexon_utils.get_bmrs_report("B0620", date, period)
-   101        49      40462.7    825.8      1.2      load_forecast = load_forecast[["Settlement Date", "Settlement Period", "Quantity"]]
+   100        49     936060.0  19103.3     33.3      load_forecast = elexon_utils.get_bmrs_report("B0620", date, period)
+   101        49      38101.8    777.6      1.4      load_forecast = load_forecast[["Settlement Date", "Settlement Period", "Quantity"]]
    102                                           
    103                                               # Rename to conform to pattern
-   104        49      20135.6    410.9      0.6      load_forecast = load_forecast.rename(columns={"Quantity": "Load"})
+   104        49      19469.6    397.3      0.7      load_forecast = load_forecast.rename(columns={"Quantity": "Load"})
    105                                           
    106                                               # Merge dataframes and clean
-   107        49     104832.9   2139.4      3.1      output = pd.merge(
-   108        49         19.0      0.4      0.0          gen_forecast, load_forecast, on=["Settlement Date", "Settlement Period"]
+   107        49      97029.1   1980.2      3.5      output = pd.merge(
+   108        49         16.6      0.3      0.0          gen_forecast, load_forecast, on=["Settlement Date", "Settlement Period"]
    109                                               )
    110                                           
-   111        49      51343.9   1047.8      1.5      output.loc[:, "Settlement Date"] = pd.to_datetime(output["Settlement Date"])
-   112        49      44355.8    905.2      1.3      output.loc[:, "Settlement Date"] -= dt.datetime(1970, 1, 1)  # Since epoch
-   113        49      40148.7    819.4      1.2      output.loc[:, "Settlement Date"] = output.loc[:, "Settlement Date"].dt.days
+   111        49      45914.0    937.0      1.6      output.loc[:, "Settlement Date"] = pd.to_datetime(output["Settlement Date"])
+   112        49      41772.9    852.5      1.5      output.loc[:, "Settlement Date"] -= dt.datetime(1970, 1, 1)  # Since epoch
+   113        49      37724.8    769.9      1.3      output.loc[:, "Settlement Date"] = output.loc[:, "Settlement Date"].dt.days
    114                                           
    115                                               # Pattern dictates current feature arrangement for autobidder model
    116                                           
-   117        49         40.8      0.8      0.0      pattern = [
+   117        49         30.0      0.6      0.0      pattern = [
    118                                                   "Settlement Date",
    119                                                   "Settlement Period",
    120                                                   "Biomass",
@@ -143,13 +143,13 @@ Line #      Hits         Time  Per Hit   % Time  Line Contents
    131                                                   "Wind Onshore",
    132                                               ]
    133                                           
-   134        49          9.0      0.2      0.0      """
+   134        49          7.9      0.2      0.0      """
    135                                               pattern = ["Settlement Date", "Settlement Period", "Load", "Solar",
    136                                                          "Wind Offshore", "Wind Onshore"]
    137                                               """
-   138        49      35750.8    729.6      1.1      return output[pattern]
+   138        49      32173.9    656.6      1.1      return output[pattern]
 
-Total time: 6.38301 s
+Total time: 5.44548 s
 File: /home/chanju/Dropbox/Lab/swansea/Social/AIMLAC/CodingChallenge/TeamGibberish/solutions/agile_snails_coding_challenge/sjautobidder/autobidder/autobidder_utils.py
 Function: get_price_estimate at line 140
 
@@ -170,38 +170,38 @@ Line #      Hits         Time  Per Hit   % Time  Line Contents
    152                                               """
    153                                           
    154                                               # Load autobidder ML model
-   155        49       5093.1    103.9      0.1      with open(Path(__file__).absolute().parent / "model.p", "rb") as handle:
-   156        49    2501805.8  51057.3     39.2          model = p.load(handle)
+   155        49       4357.8     88.9      0.1      with open(Path(__file__).absolute().parent / "model.p", "rb") as handle:
+   156        49    2125682.6  43381.3     39.0          model = p.load(handle)
    157                                           
    158                                               # Load data scaler for autobidder
-   159        49       8657.3    176.7      0.1      with open(Path(__file__).absolute().parent / "scaler.p", "rb") as handle:
-   160        49       5595.0    114.2      0.1          scaler = p.load(handle)
+   159        49       7543.0    153.9      0.1      with open(Path(__file__).absolute().parent / "scaler.p", "rb") as handle:
+   160        49       3001.5     61.3      0.1          scaler = p.load(handle)
    161                                           
-   162        49         26.5      0.5      0.0      if date is None:
+   162        49         29.7      0.6      0.0      if date is None:
    163                                                   date = dt.datetime.now()
    164                                                   strdate = dt.datetime.strftime(date, "%Y-%m-%d")
    165                                               else:
-   166        49         15.0      0.3      0.0          strdate = date
-   167        49       4004.9     81.7      0.1          date = dt.datetime.strptime(date, "%Y-%m-%d")
+   166        49         16.0      0.3      0.0          strdate = date
+   167        49       3778.1     77.1      0.1          date = dt.datetime.strptime(date, "%Y-%m-%d")
    168                                           
-   169        49         19.0      0.4      0.0      if period is None:
+   169        49         25.0      0.5      0.0      if period is None:
    170                                                   period = _to_period(dt.datetime.now())
    171                                           
    172                                               # Maximum time delta supported by ML model
-   173        49        380.0      7.8      0.0      delta = (date - dt.datetime.now()).days * 48 + period
+   173        49        309.9      6.3      0.0      delta = (date - dt.datetime.now()).days * 48 + period
    174                                           
-   175        49         40.0      0.8      0.0      if delta > 2 * 48:
+   175        49         18.3      0.4      0.0      if delta > 2 * 48:
    176                                                   price = "NaN"
    177                                               else:
-   178        49        259.7      5.3      0.0          lagged_date = date + dt.timedelta(days=-3)
-   179        49    3349366.1  68354.4     52.5          forecast = get_forecast(dt.datetime.strftime(lagged_date, "%Y-%m-%d"), period)
-   180        49      14915.0    304.4      0.2          rescaled = scaler.transform(forecast.values[:])
+   178        49        229.7      4.7      0.0          lagged_date = date + dt.timedelta(days=-3)
+   179        49    2813874.0  57426.0     51.7          forecast = get_forecast(dt.datetime.strftime(lagged_date, "%Y-%m-%d"), period)
+   180        49      13463.6    274.8      0.2          rescaled = scaler.transform(forecast.values[:])
    181                                           
-   182        49     492797.1  10057.1      7.7          price = model.predict(rescaled)[0]
+   182        49     473127.7   9655.7      8.7          price = model.predict(rescaled)[0]
    183                                           
-   184        49         31.6      0.6      0.0      return strdate, period, price
+   184        49         23.6      0.5      0.0      return strdate, period, price
 
-Total time: 6.41005 s
+Total time: 5.46913 s
 File: /home/chanju/Dropbox/Lab/swansea/Social/AIMLAC/CodingChallenge/TeamGibberish/solutions/agile_snails_coding_challenge/sjautobidder/autobidder/autobidder_utils.py
 Function: get_price_forecast at line 186
 
@@ -218,25 +218,86 @@ Line #      Hits         Time  Per Hit   % Time  Line Contents
    194                                                   np.ndarray : Array of market prices.
    195                                               """
    196                                           
-   197         1         21.5     21.5      0.0      date = dt.datetime.strftime(dt.datetime.now(), "%Y-%m-%d")
-   198         1          0.1      0.1      0.0      period = 47  # 11pm
+   197         1         14.9     14.9      0.0      date = dt.datetime.strftime(dt.datetime.now(), "%Y-%m-%d")
+   198         1          0.2      0.2      0.0      period = 47  # 11pm
    199                                           
    200         1          0.2      0.2      0.0      prices = []
    201                                           
-   202         1          0.3      0.3      0.0      n_periods = 0
+   202         1          0.2      0.2      0.0      n_periods = 0
    203                                           
-   204        49         24.5      0.5      0.0      while n_periods < 49:
-   205        48         14.6      0.3      0.0          if period > 48:
+   204        49         18.6      0.4      0.0      while n_periods < 49:
+   205        48         13.6      0.3      0.0          if period > 48:
    206         1          0.2      0.2      0.0              period = 1
-   207         1          8.5      8.5      0.0              new_date = dt.datetime.now() + dt.timedelta(days=1)
-   208         1         12.5     12.5      0.0              date = dt.datetime.strftime(new_date, "%Y-%m-%d")
-   209        49    6409915.2 130814.6    100.0          prices.append(get_price_estimate(date, period)[2])
-   210        49         28.2      0.6      0.0          period += 1
-   211        49         21.5      0.4      0.0          n_periods += 1
+   207         1          7.7      7.7      0.0              new_date = dt.datetime.now() + dt.timedelta(days=1)
+   208         1         12.7     12.7      0.0              date = dt.datetime.strftime(new_date, "%Y-%m-%d")
+   209        49    5469024.5 111612.7    100.0          prices.append(get_price_estimate(date, period)[2])
+   210        49         21.9      0.4      0.0          period += 1
+   211        49         10.7      0.2      0.0          n_periods += 1
    212                                           
    213         1          0.1      0.1      0.0      return prices
 
-Total time: 7.62101 s
+Total time: 0 s
+File: /home/chanju/Dropbox/Lab/swansea/Social/AIMLAC/CodingChallenge/TeamGibberish/solutions/agile_snails_coding_challenge/sjautobidder/elexon_api/elexon_utils.py
+Function: get_bmrs_report at line 89
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+    89                                           @profile
+    90                                           def get_bmrs_report(code: str, date: str, period="*") -> pd.DataFrame:
+    91                                               """Fetches the specified BMRS report from Elexon.
+    92                                           
+    93                                               Fetches the specified BMRS report from Elexon. and returns a
+    94                                               pandas.DataFrame object containing the report results.
+    95                                           
+    96                                               Args:
+    97                                                   code (str)          : BMRS report identifier (e.g. "B1440")
+    98                                                   date (str)          : Settlement date
+    99                                                   period (str, int)   : Settlement period (optional, default is `*`)
+   100                                           
+   101                                               Returns:
+   102                                                   pandas.DataFrame object
+   103                                           
+   104                                               Raises:
+   105                                                   ValueError  : if period not between 1-50 inclusive
+   106                                                   ValueError  : if code not in the list of supported BMRS codes
+   107                                               """
+   108                                           
+   109                                               APIKEY = get_elexon_key()
+   110                                           
+   111                                               if period == "*":
+   112                                                   pass
+   113                                               elif int(period) < 1 or int(period) > 50:
+   114                                                   raise ValueError(
+   115                                                       "period must be a str or int representing a number"
+   116                                                       " between 1-48 (inclusive) for a 24 hour day. Default"
+   117                                                       " period is `*` for all periods."
+   118                                                   )
+   119                                           
+   120                                               if code not in CODE_DESCRIPTORS.keys():
+   121                                                   raise ValueError(
+   122                                                       f"code {code} either an invalid BMRS code or is not" " yet supported"
+   123                                                   )
+   124                                           
+   125                                               assert isinstance(code, str)
+   126                                               assert isinstance(date, str)
+   127                                           
+   128                                               url = (
+   129                                                   f"https://api.bmreports.com/BMRS/{code}/v1?APIKey={APIKEY}"
+   130                                                   f"&SettlementDate={date}&Period={period}&ServiceType=csv"
+   131                                               )
+   132                                           
+   133                                               # Attempt response from cache
+   134                                               response = cache_get_hashed(url)
+   135                                               if response is None or not isinstance(response, Response):
+   136                                                   # No result cached, use API
+   137                                                   response = requests.get(url)
+   138                                                   cache_save_hashed(url, response)
+   139                                           
+   140                                               assert response.status_code == 200
+   141                                           
+   142                                               return _response_to_df(response.content.decode("utf-8"))
+
+Total time: 6.63777 s
 File: /home/chanju/Dropbox/Lab/swansea/Social/AIMLAC/CodingChallenge/TeamGibberish/solutions/agile_snails_coding_challenge/sjautobidder/power_integration/power_estimation.py
 Function: main at line 26
 
@@ -244,62 +305,61 @@ Line #      Hits         Time  Per Hit   % Time  Line Contents
 ==============================================================
     26                                           @profile
     27                                           def main():
-    28                                               # Fetch forecast from MetOffice API
-    29         1     281373.6 281373.6      3.7      forecast = get_forecast()
-    30                                               # Solar prediction (kW)
-    31         1     379728.5 379728.5      5.0      solar_prediction = get_solar_prediction()
-    32         1          0.7      0.7      0.0      datetimes = solar_prediction.index
-    33                                               # Wind prediction (kW)
-    34         1     274644.5 274644.5      3.6      wind_prediction = get_wind_prediction()
-    35                                               # Building demand prediction (kW)
-    36         1     273251.0 273251.0      3.6      building_demand = get_energy_demand()
-    37                                               # Total energy produced
-    38         1         10.9     10.9      0.0      energy_generated = np.asarray(solar_prediction) + np.asarray(
-    39         1         71.4     71.4      0.0          wind_prediction["WindPower"]
-    40                                               )
-    41         1         14.1     14.1      0.0      energy_consumption = np.append(
-    42         1         61.8     61.8      0.0          np.asarray(building_demand["Total demand"]),
-    43         1         11.6     11.6      0.0          np.asarray(building_demand["Total demand"])[-1],
-    44                                               )
-    45         1          3.0      3.0      0.0      net_energy = energy_generated - energy_consumption
-    46                                               # Market price prediction (GBP/MWh)
-    47         1    6410244.9 6410244.9     84.1      price_prediction = get_price_forecast()
-    48                                               # Collect results
-    49         1          0.3      0.3      0.0      energy_predictions = {}
-    50         1         84.0     84.0      0.0      energy_predictions["DateTime"] = datetimes.tolist()
-    51         1          7.6      7.6      0.0      energy_predictions["SolarPrediction"] = solar_prediction.tolist()
-    52         1         22.2     22.2      0.0      energy_predictions["WindPrediction"] = wind_prediction["WindPower"].tolist()
-    53         1          1.6      1.6      0.0      energy_predictions["TotalGenerated"] = energy_generated.tolist()
-    54         1          1.1      1.1      0.0      energy_predictions["BuildingPrediction"] = energy_consumption.tolist()
-    55         1          1.1      1.1      0.0      energy_predictions["NetEnergy"] = net_energy.tolist()
-    56         1          0.3      0.3      0.0      energy_predictions["Bid Price"] = price_prediction
-    57                                               # Write to csv
-    58                                               # to_csv(energy_predictions, filename=f"webpage/data/{dt.datetime.now().strftime('%Y-%m-%d')}")
-    59                                               # to_csv(orders, filename=f"{dt.datetime.now().strftime('%Y-%m-%d')}-bids")
-    60                                               
-    61         1         61.9     61.9      0.0      logging.info("Writing power estimations to mongoDB:")
-    62                                           
-    63                                               # Write to mongodb
-    64         1         15.2     15.2      0.0      datetime_calculated = dt.datetime.now().strftime("%Y-%m-%dT%H:%M:%SZ")
-    65                                               
-    66         1          0.5      0.5      0.0      mongo_data = {
-    67         1          0.2      0.2      0.0          "datetime_calculated": datetime_calculated,
-    68         1          0.2      0.2      0.0          "predictions": energy_predictions,
-    69         1       1383.9   1383.9      0.0          "forecast": df_to_dict(forecast),
-    70                                               }
-    71         1          6.7      6.7      0.0      mongo_insert_one("energy_predictions", mongo_data)  # Returns True if successful
-    72         1          4.0      4.0      0.0      logging.info("Writing power estimations successful")
-    73                                           
-    74         1          0.2      0.2      0.0      return net_energy, price_prediction
+    28                                               #estimate_price
+    29                                               # Fetch forecast from MetOffice API
+    30         1     273491.2 273491.2      4.1      forecast = get_forecast()
+    31                                               # Solar prediction (kW)
+    32         1     364564.9 364564.9      5.5      solar_prediction = get_solar_prediction()
+    33         1          0.9      0.9      0.0      datetimes = solar_prediction.index
+    34                                               # Wind prediction (kW)
+    35         1     263729.0 263729.0      4.0      wind_prediction = get_wind_prediction()
+    36                                               # Building demand prediction (kW)
+    37         1     265067.4 265067.4      4.0      building_demand = get_energy_demand()
+    38                                               # Total energy produced
+    39         1         10.9     10.9      0.0      energy_generated = np.asarray(solar_prediction) + np.asarray(
+    40         1         69.7     69.7      0.0          wind_prediction["WindPower"]
+    41                                               )
+    42         1         13.5     13.5      0.0      energy_consumption = np.append(
+    43         1         59.0     59.0      0.0          np.asarray(building_demand["Total demand"]),
+    44         1         11.7     11.7      0.0          np.asarray(building_demand["Total demand"])[-1],
+    45                                               )
+    46         1          2.9      2.9      0.0      net_energy = energy_generated - energy_consumption
+    47                                               # Market price prediction (GBP/MWh)
+    48         1    5469256.8 5469256.8     82.4      price_prediction = get_price_forecast()
+    49                                               # Collect results
+    50         1          0.1      0.1      0.0      energy_predictions = {}
+    51         1         67.6     67.6      0.0      energy_predictions["DateTime"] = datetimes.tolist()
+    52         1          5.2      5.2      0.0      energy_predictions["SolarPrediction"] = solar_prediction.tolist()
+    53         1         14.1     14.1      0.0      energy_predictions["WindPrediction"] = wind_prediction["WindPower"].tolist()
+    54         1          1.1      1.1      0.0      energy_predictions["TotalGenerated"] = energy_generated.tolist()
+    55         1          1.0      1.0      0.0      energy_predictions["BuildingPrediction"] = energy_consumption.tolist()
+    56         1          1.3      1.3      0.0      energy_predictions["NetEnergy"] = net_energy.tolist()
+    57         1          0.2      0.2      0.0      energy_predictions["Bid Price"] = price_prediction
+    58                                               # Write to csv
+    59                                               # to_csv(energy_predictions, filename=f"webpage/data/{dt.datetime.now().strftime('%Y-%m-%d')}")
+    60                                               # to_csv(orders, filename=f"{dt.datetime.now().strftime('%Y-%m-%d')}-bids")
+    61                                               
+    62         1         57.0     57.0      0.0      logging.info("Writing power estimations to mongoDB:")
+    63                                           
+    64                                               # Write to mongodb
+    65         1         13.2     13.2      0.0      datetime_calculated = dt.datetime.now().strftime("%Y-%m-%dT%H:%M:%SZ")
+    66                                               
+    67         1          0.7      0.7      0.0      mongo_data = {
+    68         1          0.1      0.1      0.0          "datetime_calculated": datetime_calculated,
+    69         1          0.2      0.2      0.0          "predictions": energy_predictions,
+    70         1       1318.9   1318.9      0.0          "forecast": df_to_dict(forecast),
+    71                                               }
+    72         1          6.5      6.5      0.0      mongo_insert_one("energy_predictions", mongo_data)  # Returns True if successful
+    73         1          3.8      3.8      0.0      logging.info("Writing power estimations successful")
+    74                                           
+    75         1          0.2      0.2      0.0      return net_energy, price_prediction
 
-Total time: 1.98291 s
+Total time: 1.65561 s
 File: agile_snails_interface.py
-Function: _read_power_volume at line 26
+Function: _read_power_volume at line 28
 
 Line #      Hits         Time  Per Hit   % Time  Line Contents
 ==============================================================
-    26                                           LONGITUDE = -3.6680
-    27                                           
     28                                           @profile
     29                                           def _read_power_volume(date: dt.date, period: int) -> pd.DataFrame:
     30                                               """Read power volume from mock data.
@@ -312,27 +372,25 @@ Line #      Hits         Time  Per Hit   % Time  Line Contents
     37                                                   period (int): Half-hour interval (counting from 1 to 48 over the day)
     38                                           
     39                                               Returns:
-    40        98         20.2      0.2      0.0          float: Total power in the grid in this half hour of that day.
-    41        98    1982199.9  20226.5    100.0      """
-    42        98         38.7      0.4      0.0      return (
-    43        98         27.5      0.3      0.0          pd.read_csv(
-    44        98         37.5      0.4      0.0              MARKET_DATAFILE,
-    45        98         21.1      0.2      0.0              header=0,
-    46        98         16.0      0.2      0.0              index_col=["date", "period"],
-    47        98        487.0      5.0      0.0              parse_dates=True,
-    48        98         64.4      0.7      0.0              infer_datetime_format=True,
-    49                                                   ).loc[(date, (period + 1) // 2), "volume"]
-    50                                                   / 2.0
+    40                                                   float: Total power in the grid in this half hour of that day.
+    41                                               """
+    42        98         15.9      0.2      0.0      return (
+    43        98    1654995.0  16887.7    100.0          pd.read_csv(
+    44        98         33.0      0.3      0.0              MARKET_DATAFILE,
+    45        98         26.6      0.3      0.0              header=0,
+    46        98         35.5      0.4      0.0              index_col=["date", "period"],
+    47        98         23.0      0.2      0.0              parse_dates=True,
+    48        98         16.2      0.2      0.0              infer_datetime_format=True,
+    49        98        413.3      4.2      0.0          ).loc[(date, (period + 1) // 2), "volume"]
+    50        98         52.7      0.5      0.0          / 2.0
     51                                               )
 
-Total time: 1.05037 s
+Total time: 0.910521 s
 File: agile_snails_interface.py
-Function: _mock_load_response at line 52
+Function: _mock_load_response at line 54
 
 Line #      Hits         Time  Per Hit   % Time  Line Contents
 ==============================================================
-    52                                           
-    53                                           
     54                                           @profile
     55                                           def _mock_load_response(date: dt.date, period: int) -> pd.DataFrame:
     56                                               """Prepare the mocked data for the load API call.
@@ -350,48 +408,68 @@ Line #      Hits         Time  Per Hit   % Time  Line Contents
     68                                                   is a single number but we provide a bit of additional noise here to more
     69                                                   closely resemble the API response. It then comes as a single-row
     70                                                   dataframe which they probably chose in order to later concatenate the
-    71        49     131363.5   2680.9     12.5          results for different periods of the day together.
-    72        49         29.7      0.6      0.0      """
-    73        49         25.3      0.5      0.0      return pd.read_csv(LOAD_TEMPLATE).assign(
-    74        49         41.3      0.8      0.0          **{
-    75        49     918907.9  18753.2     87.5              "Settlement Date": date,
-    76                                                       "Settlement Period": str(period),
-    77                                                       "Quantity": _read_power_volume(date, period),
+    71                                                   results for different periods of the day together.
+    72                                               """
+    73        49     108137.2   2206.9     11.9      return pd.read_csv(LOAD_TEMPLATE).assign(
+    74        49         27.3      0.6      0.0          **{
+    75        49         19.8      0.4      0.0              "Settlement Date": date,
+    76        49         38.9      0.8      0.0              "Settlement Period": str(period),
+    77        49     802297.8  16373.4     88.1              "Quantity": _read_power_volume(date, period),
     78                                                   }
     79                                               )
 
-Total time: 1.3356 s
+Total time: 1.08893 s
 File: agile_snails_interface.py
-Function: _mock_generation_response at line 79
+Function: _mock_generation_response at line 81
 
 Line #      Hits         Time  Per Hit   % Time  Line Contents
 ==============================================================
-    79                                               )
-    80                                           
     81                                           @profile
     82                                           def _mock_generation_response(date: dt.date, period: int) -> pd.DataFrame:
+    83                                               """Prepare the mocked data for the generation API call.
+    84                                           
+    85                                               This function prepares the data for the BMRS API that would have given the
+    86                                               forecast power generation by resource type (i.e. the predicted kWh of solar
+    87                                               power, wind power, etc.). We actually don't have mock data for this, so we
+    88                                               very naively distribute this evenly over the various resources. It will get
+    89                                               fed into the model for prediction (among others).
+    90                                           
+    91                                               Args:
+    92                                                   date (datetime.date): Date to consider
+    93                                                   period (int): Half-hour interval (counting from 1 to 48 over the day)
+    94                                           
+    95                                               Returns:
+    96                                                   pd.DataFrame: Load forecast for this period on that day with a bit of
+    97                                                   additional noise here to more closely resemble the API response. There
+    98                                                   is one row per resource.
+    99                                               """
+   100        49         22.0      0.4      0.0      num_resources = 10
+   101        49     149559.0   3052.2     13.7      tmp = pd.read_csv(GENERATION_TEMPLATE).assign(
+   102        49         31.3      0.6      0.0          **{
+   103        49         25.4      0.5      0.0              "Settlement Date": date,
+   104        49         55.5      1.1      0.0              "Settlement Period": str(period),
+   105        49     939218.7  19167.7     86.3              "Quantity": _read_power_volume(date, period) / num_resources,
+   106                                                   }
+   107                                               )
+   108        49         17.3      0.4      0.0      return tmp
 
-Total time: 2.44215 s
+Total time: 2.04668 s
 File: agile_snails_interface.py
-Function: mock_elexon_get_bmrs_report at line 111
+Function: mock_elexon_get_bmrs_report at line 113
 
 Line #      Hits         Time  Per Hit   % Time  Line Contents
 ==============================================================
-   111                                           CODE_TO_FUNCTION = {"B1620": _mock_generation_response, "B0620": _mock_load_response}
-   112                                           
    113                                           @profile
-   114        98    2442152.0  24919.9    100.0  def mock_elexon_get_bmrs_report(code: str, date: str, period: int) -> pd.DataFrame:
+   114                                           def mock_elexon_get_bmrs_report(code: str, date: str, period: int) -> pd.DataFrame:
    115                                               """Simulate an API to elexon BMRS."""
-   116                                               return CODE_TO_FUNCTION[code](date, period)
+   116        98    2046679.2  20884.5    100.0      return CODE_TO_FUNCTION[code](date, period)
 
-Total time: 0.00623624 s
+Total time: 0.00648905 s
 File: agile_snails_interface.py
-Function: recursively_formatted at line 116
+Function: recursively_formatted at line 118
 
 Line #      Hits         Time  Per Hit   % Time  Line Contents
 ==============================================================
-   116                                               return CODE_TO_FUNCTION[code](date, period)
-   117                                           
    118                                           @profile
    119                                           def recursively_formatted(template_obj: Any, **kwargs: Any) -> Any:
    120                                               """Recursively format the format strings in a json-like datastructure.
@@ -420,19 +498,19 @@ Line #      Hits         Time  Per Hit   % Time  Line Contents
    143                                           
    144                                               Returns:
    145                                                   json-like: Equivalent datastructure with all strings formatted.
-   146      3088        636.2      0.2     10.2      """
-   147      3088       4465.5      1.4     71.6      # Stopping criterion:
-   148                                               if isinstance(template_obj, str):
-   149                                                   return template_obj.format(**kwargs)
-   150       416         82.8      0.2      1.3  
-   151       416        810.7      1.9     13.0      # Handle iterables:
-   152                                               if isinstance(template_obj, dict):
-   153       416         98.0      0.2      1.6          return {
+   146                                               """
+   147                                               # Stopping criterion:
+   148      3088        648.8      0.2     10.0      if isinstance(template_obj, str):
+   149      3088       4714.6      1.5     72.7          return template_obj.format(**kwargs)
+   150                                           
+   151                                               # Handle iterables:
+   152       416         89.2      0.2      1.4      if isinstance(template_obj, dict):
+   153       416        794.9      1.9     12.2          return {
    154                                                       key: recursively_formatted(value, **kwargs)
-   155        64         12.4      0.2      0.2              for key, value in template_obj.items()
-   156        64        130.6      2.0      2.1          }
-   157                                               if isinstance(template_obj, list):
-   158                                                   return [recursively_formatted(value, **kwargs) for value in template_obj]
+   155       416         99.7      0.2      1.5              for key, value in template_obj.items()
+   156                                                   }
+   157        64         13.8      0.2      0.2      if isinstance(template_obj, list):
+   158        64        128.0      2.0      2.0          return [recursively_formatted(value, **kwargs) for value in template_obj]
    159                                           
    160                                               # Raise if unexpected type:
    161                                               raise TypeError(
@@ -441,72 +519,102 @@ Line #      Hits         Time  Per Hit   % Time  Line Contents
    164                                                   f"{type(template_obj)}."
    165                                               )
 
-Total time: 0.518531 s
+Total time: 0.503679 s
 File: agile_snails_interface.py
-Function: __init__ at line 168
+Function: __init__ at line 170
 
 Line #      Hits         Time  Per Hit   % Time  Line Contents
 ==============================================================
-   168                                               """Minimal substitute for requests.Response from the met office API call."""
-   169                                           
-   170         4          2.4      0.6      0.0      @profile
-   171         4        160.5     40.1      0.0      def __init__(self, date: dt.date) -> None:
-   172         4        276.5     69.1      0.1          self._date = date
-   173         4     518091.6 129522.9     99.9          with open(METOFFICE_TEMPLATE, "r", encoding="utf-8") as file:
-   174                                                       self._json_template = json.loads(file.read())
-   175                                                   self._data = self._read_mock_data(date)
+   170                                               @profile
+   171                                               def __init__(self, date: dt.date) -> None:
+   172         4          2.2      0.6      0.0          self._date = date
+   173         4        141.6     35.4      0.0          with open(METOFFICE_TEMPLATE, "r", encoding="utf-8") as file:
+   174         4        267.8     67.0      0.1              self._json_template = json.loads(file.read())
+   175         4     503267.8 125817.0     99.9          self._data = self._read_mock_data(date)
 
-Total time: 0.514132 s
+Total time: 0.499649 s
 File: agile_snails_interface.py
-Function: _read_mock_data at line 175
+Function: _read_mock_data at line 177
 
 Line #      Hits         Time  Per Hit   % Time  Line Contents
 ==============================================================
-   175                                                   self._data = self._read_mock_data(date)
-
-Total time: 0.0203781 s
-File: agile_snails_interface.py
-Function: json at line 200
-
-Line #      Hits         Time  Per Hit   % Time  Line Contents
-==============================================================
+   177                                               @profile
+   178                                               def _read_mock_data(self, date: dt.date) -> pd.DataFrame:
+   179                                                   """Read mock data and return 3h intervals as Met Office would."""
+   180         4          1.2      0.3      0.0          return (
+   181         8     492397.1  61549.6     98.5              pd.read_csv(
+   182         4          1.0      0.2      0.0                  METOFFICE_DATAFILE,
+   183         4          0.6      0.2      0.0                  header=0,
+   184         4          0.6      0.2      0.0                  infer_datetime_format=True,
+   185         4          0.6      0.1      0.0                  parse_dates=True,
+   186         4          1.4      0.3      0.0                  index_col=["time", "lat", "lon"],
+   187         4          1.0      0.2      0.0                  usecols=[
+   188                                                               "time",
+   189                                                               "lat",
+   190                                                               "lon",
+   191                                                               "screenTemperature",
+   192                                                               "windSpeed10m",
+   193                                                               "significantWeatherCode",
+   194                                                           ],
+   195                                                       )
+   196         8         34.9      4.4      0.0              .loc(axis=0)[date : date + dt.timedelta(days=2), LATTITUDE, LONGITUDE]
+   197         4        918.1    229.5      0.2              .droplevel(("lat", "lon"))
+   198         4       3399.9    850.0      0.7              .resample("3h")
+   199         4       2892.7    723.2      0.6              .mean()
    200                                                   )
-   201                                           
+
+Total time: 0.0207717 s
+File: agile_snails_interface.py
+Function: json at line 202
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
    202                                               @profile
-   203        16      17368.8   1085.5     85.2      def json(self) -> Dict[str, Any]:
-
-Total time: 0.518598 s
-File: agile_snails_interface.py
-Function: mock_met_office_fetch_forecast at line 218
-
-Line #      Hits         Time  Per Hit   % Time  Line Contents
-==============================================================
+   203                                               def json(self) -> Dict[str, Any]:
+   204                                                   """Return json as Met Office would."""
+   205        16      17956.6   1122.3     86.4          return recursively_formatted(
+   206        16          4.7      0.3      0.0              self._json_template,
+   207        16         93.6      5.8      0.5              date=dt.datetime.combine(self._date, dt.time(hour=20)).strftime(
+   208        16          2.4      0.1      0.0                  "%Y-%m-%dT%H:%M:%SZ"
+   209                                                       ),
+   210        16          7.4      0.5      0.0              date_plus_one=dt.datetime.combine(
+   211        16         35.0      2.2      0.2                  self._date + dt.timedelta(days=1), dt.time(hour=20)
+   212        16         42.9      2.7      0.2              ).strftime("%Y-%m-%dT%H:%M:%SZ"),
+   213        16          3.7      0.2      0.0              lat=LATTITUDE,
+   214        16          2.9      0.2      0.0              lon=LONGITUDE,
+   215        16        440.9     27.6      2.1              windspeed=self._data["windSpeed10m"],
+   216        16        234.4     14.6      1.1              temperature=self._data["screenTemperature"],
+   217        16       1947.2    121.7      9.4              weathercode=self._data["significantWeatherCode"].astype(int),
    218                                                   )
-   219                                           
+
+Total time: 0.503741 s
+File: agile_snails_interface.py
+Function: mock_met_office_fetch_forecast at line 220
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
    220                                           @profile
-   221         4     518598.4 129649.6    100.0  def mock_met_office_fetch_forecast(date: dt.date) -> MockMetOfficeResponse:
+   221                                           def mock_met_office_fetch_forecast(date: dt.date) -> MockMetOfficeResponse:
+   222                                               """Return a mock weather forecast from date."""
+   223         4     503741.3 125935.3    100.0      return MockMetOfficeResponse(date)
 
-Total time: 3.26e-07 s
+Total time: 2.94e-07 s
 File: agile_snails_interface.py
-Function: mock_mongo_insert_one at line 223
+Function: mock_mongo_insert_one at line 225
 
 Line #      Hits         Time  Per Hit   % Time  Line Contents
 ==============================================================
-   223                                               return MockMetOfficeResponse(date)
-   224                                           
    225                                           @profile
-   226         1          0.3      0.3    100.0  def mock_mongo_insert_one(*args, **kwargs) -> None:
+   226                                           def mock_mongo_insert_one(*args, **kwargs) -> None:
    227                                               """Do not interact with database."""
-   228                                               pass
+   228         1          0.3      0.3    100.0      pass
 
-Total time: 5.376e-06 s
+Total time: 5.718e-06 s
 File: agile_snails_interface.py
-Function: mock_out_api_calls_with at line 231
+Function: mock_out_api_calls_with at line 233
 
 Line #      Hits         Time  Per Hit   % Time  Line Contents
 ==============================================================
-   231                                           sjautobidder.power_integration.power_estimation.mongo_insert_one = mock_mongo_insert_one
-   232                                           
    233                                           @profile
    234                                           def mock_out_api_calls_with(date: dt.date) -> None:
    235                                               """Mock out all API calls.
@@ -519,26 +627,24 @@ Line #      Hits         Time  Per Hit   % Time  Line Contents
    242                                           
    243                                               Args:
    244                                                   date (datetime.date): Fixed date the API calls will simulate.
-   245         1          2.4      2.4     45.3      """
-   246         1          0.4      0.4      6.7  
-   247                                               sjautobidder.met_office_api.api_interpolation.fetch_forecast = (
-   248                                                   lambda: mock_met_office_fetch_forecast(date)
-   249         1          2.3      2.3     42.6      )
-   250         1          0.3      0.3      5.3      # note that date is the argument to mock_out_api_calls_with and NOT unused_date
-   251                                               sjautobidder.elexon_api.elexon_utils.get_bmrs_report = (
-   252                                                   lambda code, unused_date, period: mock_elexon_get_bmrs_report(
+   245                                               """
+   246                                           
+   247         1          2.8      2.8     49.0      sjautobidder.met_office_api.api_interpolation.fetch_forecast = (
+   248         1          0.4      0.4      6.7          lambda: mock_met_office_fetch_forecast(date)
+   249                                               )
+   250                                               # note that date is the argument to mock_out_api_calls_with and NOT unused_date
+   251         1          2.2      2.2     39.1      sjautobidder.elexon_api.elexon_utils.get_bmrs_report = (
+   252         1          0.3      0.3      5.2          lambda code, unused_date, period: mock_elexon_get_bmrs_report(
    253                                                       code, date.strftime("%Y-%m-%d"), period
    254                                                   )
    255                                               )
 
-Total time: 7.62276 s
+Total time: 6.63949 s
 File: agile_snails_interface.py
-Function: get_price_and_quantity at line 258
+Function: get_price_and_quantity at line 260
 
 Line #      Hits         Time  Per Hit   % Time  Line Contents
 ==============================================================
-   258                                           #################################################################################
-   259                                           
    260                                           @profile
    261                                           def get_price_and_quantity(date: dt.date) -> pd.DataFrame:
    262                                               """Predict produced quantity and best price to bid.
@@ -555,21 +661,19 @@ Line #      Hits         Time  Per Hit   % Time  Line Contents
    273                                           
    274                                               Returns:
    275                                                   pd.DataFrame: A dataframe containing the predicted quantity and price
-   276         1         10.8     10.8      0.0          over the next bidding interval.
-   277         1    7622753.8 7622753.8    100.0      """
-   278                                               mock_out_api_calls_with(date)
-   279                                               return pd.DataFrame(estimate_power(), index=["quantity", "price"]).T
+   276                                                   over the next bidding interval.
+   277                                               """
+   278         1         13.4     13.4      0.0      mock_out_api_calls_with(date)
+   279         1    6639474.4 6639474.4    100.0      return pd.DataFrame(estimate_power(), index=["quantity", "price"]).T
 
-Total time: 7.63005 s
+Total time: 6.64624 s
 File: agile_snails_interface.py
-Function: main at line 279
+Function: main at line 281
 
 Line #      Hits         Time  Per Hit   % Time  Line Contents
 ==============================================================
-   279                                               return pd.DataFrame(estimate_power(), index=["quantity", "price"]).T
-   280                                           
-   281         1          2.0      2.0      0.0  @profile
-   282         1    7630044.7 7630044.7    100.0  def main():
-   283                                               DATE = dt.date(2022, 1, 2)
-   284                                               print(get_price_and_quantity(DATE))
+   281                                           @profile
+   282                                           def main():
+   283         1          1.7      1.7      0.0      DATE = dt.date(2022, 1, 2)
+   284         1    6646242.4 6646242.4    100.0      print(get_price_and_quantity(DATE))
 

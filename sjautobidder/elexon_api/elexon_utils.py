@@ -66,7 +66,7 @@ def get_elexon_key() -> str:
     # unable to obtain key, throw an error
     raise RuntimeError
 
-
+@profile
 def _response_to_df(response_string: str) -> pd.DataFrame:
     """Converts utf-8 decoded response string to a pandas.DataFrame object.
 
@@ -86,7 +86,7 @@ def _response_to_df(response_string: str) -> pd.DataFrame:
 
     return pd.DataFrame(content, columns=header)
 
-
+@profile
 def get_bmrs_report(code: str, date: str, period="*") -> pd.DataFrame:
     """Fetches the specified BMRS report from Elexon.
 
