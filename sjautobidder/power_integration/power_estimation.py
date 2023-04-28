@@ -23,8 +23,9 @@ from sjautobidder.autobidder.autobidder_utils import get_price_forecast
 from sjautobidder.utils.mongo_utils import mongo_insert_one
 from sjautobidder.utils.panda_utils import df_to_dict
 
-
+@profile
 def main():
+    #estimate_price
     # Fetch forecast from MetOffice API
     forecast = get_forecast()
     # Solar prediction (kW)

@@ -8,6 +8,8 @@ import pandas as pd
 import sjautobidder.elexon_api.elexon_utils
 from sjautobidder.power_integration.power_estimation import main as estimate_power
 
+import warnings
+warnings.filterwarnings("ignore")
 # ######################### Things related to mocking #########################
 # This following part mocks out API calls for now, so that you can test the code
 # without the need to set up API keys and have an internet connection. You can
@@ -23,7 +25,7 @@ METOFFICE_DATAFILE = DATA_DIRECTORY / "weather_mock.csv"
 LATTITUDE = 52.1051
 LONGITUDE = -3.6680
 
-
+@profile
 def _read_power_volume(date: dt.date, period: int) -> pd.DataFrame:
     """Read power volume from mock data.
 
@@ -49,6 +51,7 @@ def _read_power_volume(date: dt.date, period: int) -> pd.DataFrame:
     )
 
 
+@profile
 def _mock_load_response(date: dt.date, period: int) -> pd.DataFrame:
     """Prepare the mocked data for the load API call.
 
@@ -75,7 +78,7 @@ def _mock_load_response(date: dt.date, period: int) -> pd.DataFrame:
         }
     )
 
-
+@profile
 def _mock_generation_response(date: dt.date, period: int) -> pd.DataFrame:
     """Prepare the mocked data for the generation API call.
 
@@ -107,12 +110,12 @@ def _mock_generation_response(date: dt.date, period: int) -> pd.DataFrame:
 
 CODE_TO_FUNCTION = {"B1620": _mock_generation_response, "B0620": _mock_load_response}
 
-
+@profile
 def mock_elexon_get_bmrs_report(code: str, date: str, period: int) -> pd.DataFrame:
     """Simulate an API to elexon BMRS."""
     return CODE_TO_FUNCTION[code](date, period)
 
-
+@profile
 def recursively_formatted(template_obj: Any, **kwargs: Any) -> Any:
     """Recursively format the format strings in a json-like datastructure.
 
@@ -161,16 +164,17 @@ def recursively_formatted(template_obj: Any, **kwargs: Any) -> Any:
         f"{type(template_obj)}."
     )
 
-
 class MockMetOfficeResponse:
     """Minimal substitute for requests.Response from the met office API call."""
 
+    @profile
     def __init__(self, date: dt.date) -> None:
         self._date = date
         with open(METOFFICE_TEMPLATE, "r", encoding="utf-8") as file:
             self._json_template = json.loads(file.read())
         self._data = self._read_mock_data(date)
 
+    @profile
     def _read_mock_data(self, date: dt.date) -> pd.DataFrame:
         """Read mock data and return 3h intervals as Met Office would."""
         return (
@@ -195,6 +199,7 @@ class MockMetOfficeResponse:
             .mean()
         )
 
+    @profile
     def json(self) -> Dict[str, Any]:
         """Return json as Met Office would."""
         return recursively_formatted(
@@ -212,12 +217,12 @@ class MockMetOfficeResponse:
             weathercode=self._data["significantWeatherCode"].astype(int),
         )
 
-
+@profile
 def mock_met_office_fetch_forecast(date: dt.date) -> MockMetOfficeResponse:
     """Return a mock weather forecast from date."""
     return MockMetOfficeResponse(date)
 
-
+@profile
 def mock_mongo_insert_one(*args, **kwargs) -> None:
     """Do not interact with database."""
     pass
@@ -225,7 +230,7 @@ def mock_mongo_insert_one(*args, **kwargs) -> None:
 
 sjautobidder.power_integration.power_estimation.mongo_insert_one = mock_mongo_insert_one
 
-
+@profile
 def mock_out_api_calls_with(date: dt.date) -> None:
     """Mock out all API calls.
 
@@ -252,7 +257,7 @@ def mock_out_api_calls_with(date: dt.date) -> None:
 
 #################################################################################
 
-
+@profile
 def get_price_and_quantity(date: dt.date) -> pd.DataFrame:
     """Predict produced quantity and best price to bid.
 
@@ -273,9 +278,15 @@ def get_price_and_quantity(date: dt.date) -> pd.DataFrame:
     mock_out_api_calls_with(date)
     return pd.DataFrame(estimate_power(), index=["quantity", "price"]).T
 
+@profile
+def main():
+    DATE = dt.date(2022, 1, 2)
+    print(get_price_and_quantity(DATE))
 
 if __name__ == "__main__":
     # Dummy application of the above.
     # Adjust to suit your needs.
-    DATE = dt.date(2022, 1, 2)
-    print(get_price_and_quantity(DATE))
+    #DATE = dt.date(2022, 1, 2)
+    #print(get_price_and_quantity(DATE))
+    main()
+

@@ -12,7 +12,7 @@ from pathlib import Path
 
 import sjautobidder.elexon_api.elexon_utils as elexon_utils
 
-
+@profile
 def _to_period(timestamp: dt.datetime) -> int:
     """Computes the market period from a given timestamp.
 
@@ -32,7 +32,7 @@ def _to_period(timestamp: dt.datetime) -> int:
 
     return period
 
-
+@profile
 def _to_time(period: int) -> str:
     """Computes timestamp from a given market period.
 
@@ -51,7 +51,7 @@ def _to_time(period: int) -> str:
 
     return f"{hour:02}:{minute:02}"
 
-
+@profile
 def cache_forecast():
     """Caches the forecast for the following day."""
 
@@ -59,7 +59,7 @@ def cache_forecast():
 
     return None
 
-
+@profile
 def get_forecast(date: str, period: int) -> pd.DataFrame:
     """Fetches the elexon utilities and market data forecast for the specified
        time period.
@@ -137,7 +137,7 @@ def get_forecast(date: str, period: int) -> pd.DataFrame:
     """
     return output[pattern]
 
-
+@profile
 def get_price_estimate(date=None, period=None) -> (str, int, float):
     """Calculates the estimated market sell price for the given date and
        period.
@@ -183,7 +183,7 @@ def get_price_estimate(date=None, period=None) -> (str, int, float):
 
     return strdate, period, price
 
-
+@profile
 def get_price_forecast() -> list:
     """Generates the Day-Ahead (11pm-11pm) market price forecast.
 
