@@ -40,3 +40,9 @@ webpage/.DS_Store
 # Logs
 app.log
 site_utils.log
+
+# Data files
+.csv
+
+# Profile log
+.lprof
