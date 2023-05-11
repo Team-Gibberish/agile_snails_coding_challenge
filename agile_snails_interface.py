@@ -37,16 +37,19 @@ def _read_power_volume(date: dt.date, period: int) -> pd.DataFrame:
     Returns:
         float: Total power in the grid in this half hour of that day.
     """
-    return (
-        pd.read_csv(
-            MARKET_DATAFILE,
-            header=0,
-            index_col=["date", "period"],
-            parse_dates=True,
-            infer_datetime_format=True,
-        ).loc[(date, (period + 1) // 2), "volume"]
-        / 2.0
-    )
+    try:
+        return (
+            pd.read_csv(
+                MARKET_DATAFILE,
+                header=0,
+                index_col=["date", "period"],
+                parse_dates=True,
+                infer_datetime_format=True,
+            ).loc[(date, (period + 1) // 2), "volume"]
+            / 2.0
+        )
+    except:
+        raise ValueError("No market data for %s."%(str(date)))
 
 
 def _mock_load_response(date: dt.date, period: int) -> pd.DataFrame:
@@ -170,33 +173,43 @@ class MockMetOfficeResponse:
         with open(METOFFICE_TEMPLATE, "r", encoding="utf-8") as file:
             self._json_template = json.loads(file.read())
         self._data = self._read_mock_data(date)
+        
+        if self._data["screenTemperature"].count() != 17:
+            raise ValueError("No full wearhter data for %s."%(str(date)))
 
     def _read_mock_data(self, date: dt.date) -> pd.DataFrame:
         """Read mock data and return 3h intervals as Met Office would."""
-        return (
-            pd.read_csv(
-                METOFFICE_DATAFILE,
-                header=0,
-                infer_datetime_format=True,
-                parse_dates=True,
-                index_col=["time", "lat", "lon"],
-                usecols=[
-                    "time",
-                    "lat",
-                    "lon",
-                    "screenTemperature",
-                    "windSpeed10m",
-                    "significantWeatherCode",
-                ],
+        try:
+            return (
+                pd.read_csv(
+                    METOFFICE_DATAFILE,
+                    header=0,
+                    infer_datetime_format=True,
+                    parse_dates=True,
+                    index_col=["time", "lat", "lon"],
+                    usecols=[
+                        "time",
+                        "lat",
+                        "lon",
+                        "screenTemperature",
+                        "windSpeed10m",
+                        "significantWeatherCode",
+                    ],
+                )
+                .loc(axis=0)[date : date + dt.timedelta(days=2), LATTITUDE, LONGITUDE]
+                .droplevel(("lat", "lon"))
+                .resample("3h")
+                .mean()
             )
-            .loc(axis=0)[date : date + dt.timedelta(days=2), LATTITUDE, LONGITUDE]
-            .droplevel(("lat", "lon"))
-            .resample("3h")
-            .mean()
-        )
+        except:
+            raise ValueError("No weather data for %s."%(str(date)))
 
     def json(self) -> Dict[str, Any]:
         """Return json as Met Office would."""
+
+        if self._data["significantWeatherCode"].isna().sum():
+            raise ValueError("NaN value in the wether data for %s."%(str(self._date)))
+
         return recursively_formatted(
             self._json_template,
             date=dt.datetime.combine(self._date, dt.time(hour=20)).strftime(
@@ -277,5 +290,5 @@ def get_price_and_quantity(date: dt.date) -> pd.DataFrame:
 if __name__ == "__main__":
     # Dummy application of the above.
     # Adjust to suit your needs.
-    DATE = dt.date(2022, 1, 2)
+    DATE = dt.date(2021, 5, 4)
     print(get_price_and_quantity(DATE))
