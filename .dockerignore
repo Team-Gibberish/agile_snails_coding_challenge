@@ -6,6 +6,10 @@
 
 # sjautobidder distributions
 !dist/
+!sjautobidder
+!setup.cfg
+!README.md
+!pyproject.toml
 
 !dockerstart.sh
 
