@@ -1,0 +1,21 @@
+name: sjautobidder
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - conda
+  - python=3.8.10
+  - pvlib-python
+  - pytest
+  - prospector
+  - flask
+  - pip
+  - pymongo[srv]
+  - dnspython
+  - scikit-learn
+  - pip:
+    - pytest-coverage
+    - build
+    - black
+    - gunicorn
+    - flask-cors
