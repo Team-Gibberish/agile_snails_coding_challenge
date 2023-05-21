@@ -25,11 +25,7 @@ def get_next_24_hour_datetime(start_time: datetime.datetime) -> List[datetime.da
         24 hour interval in 30 minute steps from the given start time (48
         instances).
     """
-    date_times = []
-    for index in range(48):
-        minutes_to_add = index * 30
-        temp_time = start_time + datetime.timedelta(minutes=minutes_to_add)
-        date_times.append(temp_time)
+    date_times = [start_time + datetime.timedelta(minutes=30*i) for i in range(48)]
     return date_times
 
 
@@ -45,16 +41,13 @@ def get_active_office_mask(start_time: datetime.datetime) -> List[bool]:
     Returns: List[bool]: An array of booleans of the next 24 hour period where
         True is when the office will be in use by staff.
     """
-    following_24_hours_times = get_next_24_hour_datetime(start_time)
-    mask = [False for _ in range(48)]
-
+    # Define office start and end times
     day_start = datetime.time(9, 0, 0)
     day_end = datetime.time(17, 30, 0)
 
-    for index, val in enumerate(following_24_hours_times):
-        # val.weekday() < 5 checks the datetime in question isn't on the weekend
-        if day_start <= val.time() <= day_end and val.weekday() < 5:
-            mask[index] = True
+    # Generate mask with list comprehension and if clause
+    mask = [day_start <= dt.time() <= day_end and dt.weekday() < 5 
+            for dt in get_next_24_hour_datetime(start_time)]
     return mask
 
 
@@ -144,17 +137,8 @@ def adjust_datetime(start_time: datetime.datetime):
         adjusted_time (datetime.datetime): The time adjusted to the next half hour slot.
     """
 
-    # Converts the minutes and seconds into floating point for the logic below
-    minutes_seconds = start_time.minute + (start_time.second / 100)
-
-    if minutes_seconds in [0.0, 30.0]:
-        return start_time
-
-    if 0.0 < minutes_seconds < 30.0:
-        adjusted_time = start_time.replace(minute=30, second=0, microsecond=0)
-
-    if 30.0 < minutes_seconds < 60.0:
-        adjusted_time = start_time.replace(minute=0, second=0, microsecond=0)
-        adjusted_time = adjusted_time + datetime.timedelta(hours=1)
-
-    return adjusted_time
+    if start_time.minute % 30 != 0:
+        start_time += datetime.timedelta(minutes=30 - start_time.minute % 30, 
+                                         seconds=-start_time.second, 
+                                         microseconds=-start_time.microsecond)
+    return start_time
