@@ -85,18 +85,7 @@ def get_forecast(date: str, period: int) -> pd.DataFrame:
         "Quantity",
     )
 
-    """
-    # Fetch wind and solar generation forecast
-    gen_forecast = elexon_utils.get_bmrs_report("B1440", date, period)
-    gen_forecast = gen_forecast[gen_forecast["Process Type"] == "Day Ahead"]
-    gen_forecast = elexon_utils.df_unstacker(gen_forecast,
-                                             ["Settlement Date",
-                                              "Settlement Period"],
-                                             "Power System Resource  Type",
-                                             "Quantity")
-    """
     # Fetch forecast system load
-
     load_forecast = elexon_utils.get_bmrs_report("B0620", date, period)
     load_forecast = load_forecast[["Settlement Date", "Settlement Period", "Quantity"]]
 
