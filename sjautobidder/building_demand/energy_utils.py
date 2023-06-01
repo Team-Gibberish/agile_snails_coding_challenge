@@ -43,7 +43,7 @@ def get_active_office_mask(start_time: datetime.datetime) -> List[bool]:
     """
     # Define office start and end times
     day_start = datetime.time(9, 0, 0)
-    day_end = datetime.time(17, 30, 0)
+    day_end = datetime.time(17, 0, 0)
 
     # Generate mask with list comprehension and if clause
     mask = [day_start <= dt.time() <= day_end and dt.weekday() < 5 
