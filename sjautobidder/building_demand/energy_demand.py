@@ -1,3 +1,13 @@
+"""This file contains functions that return the energy demand of the office site."""
+
+import datetime
+import numpy as np
+import pandas as pd
+
+from typing import List
+from .energy_utils import get_temperatures, temp_to_energy, adjust_datetime
+from .energy_utils import create_initial_demand_dataframe, get_active_office_mask
+
 def get_energy_demand(
     start_time=None
 ) -> pd.DataFrame:
@@ -53,6 +63,14 @@ def get_heating_demand(active_office_mask: List[bool]) -> np.ndarray:
 
     return heating_demand
 
+def get_data_centre_demand() -> np.ndarray:
+    """Get the energy demand for the data center.
+    Returns a numpy array with the energy demand of the data centre over the
+    coming 24 hour period, in 30 minute intervals. Currently a dummy function.
+    Returns: np.ndarray: The energy demands of the data center over the next 24
+        hours, in 30 minute intervals (48 instances).
+    """
+    return np.ones(48) * 200
 
 def get_office_equipment_demand(active_office_mask: List[bool]) -> np.ndarray:
     """Get the energy demand for the building's office equipment.
