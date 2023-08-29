@@ -10,7 +10,7 @@ dependencies:
   - prospector
   - flask
   - pip
-  - pymongo[srv]
+  - pymongo
   - dnspython
   - scikit-learn
   - pip:
