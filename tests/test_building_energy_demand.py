@@ -68,7 +68,8 @@ def test_get_energy_demand() -> None:
 
 def test_get_office_equipment_demand():
     """Test to ensure office cumulative office demand is the expected result."""
-    output = get_office_equipment_demand()
+    general_energy_demand = get_energy_demand()
+    output = get_office_equipment_demand(general_energy_demand['Active office mask'])
 
     # Check return type
     assert isinstance(output, np.ndarray)
@@ -81,7 +82,8 @@ def test_get_office_equipment_demand():
 
 def test_get_lighting_and_other_demand():
     """Test to ensure lighting and misc demand is the expected result."""
-    output = get_lighting_and_other_demand()
+    general_energy_demand = get_energy_demand()
+    output = get_lighting_and_other_demand(general_energy_demand['Active office mask'])
 
     # Check return type
     assert isinstance(output, np.ndarray)
