@@ -29,7 +29,7 @@ are **not** served with the bundled javascript.
 7. Use the webserver to access the website
     1. [Make sure you have a working python development environment for this project](../CONTRIBUTING.md)
     2. Host the webserver
-        - Use `python sjautobidder/webserver.py`
+        - Use `python -m sjautobidder.webserver`
         - **Or** Use the Docker container *(involved needing to network containers)*
         - **Or** use gunicorn *(linux only, take a look at the [docker startup script](../dockerstart.sh))*
     3. Navigate to the website with your browser
