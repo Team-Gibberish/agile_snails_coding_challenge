@@ -39,7 +39,10 @@ def get_energy_demand(
         active_office_mask
     )
 
-    demand_dataframe["Total demand"] = demand_dataframe.sum(axis=1)
+    demand_dataframe["Total demand"] = (demand_dataframe["Heating"]
+                                        + demand_dataframe["Data Centre"]
+                                        + demand_dataframe["Office Equipment"]
+                                        + demand_dataframe["LightingOther"])
 
     return demand_dataframe
 
@@ -58,10 +61,10 @@ def get_heating_demand(active_office_mask: List[bool]) -> np.ndarray:
         24 hours, in 30 minute intervals (48 instances).
     """
     temperatures_over_coming_24_hours = get_temperatures()
-    heating_demand = temp_to_energy(temperatures_over_coming_24_hours)
-    heating_demand[~np.array(active_office_mask)] = 0
+    heating_demand = np.array([temp_to_energy(x) for x in temperatures_over_coming_24_hours], dtype=float)
+    heating_demand[~np.array(active_office_mask)] = 0.
 
-    return heating_demand
+    return heating_demand.tolist()
 
 def get_data_centre_demand() -> np.ndarray:
     """Get the energy demand for the data center.
@@ -102,5 +105,5 @@ def get_lighting_and_other_demand(active_office_mask: List[bool]) -> np.ndarray:
     Returns: np.ndarray: The energy demands of the lighting and other equipment
         over the next 24 hours, in 30 minutes intervals (48 instances).
     """
-    demand = np.array(active_office_mask) * 20
+    demand = np.array(active_office_mask, dtype=float) * 20
     return demand
