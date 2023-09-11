@@ -60,16 +60,16 @@ def temp_to_energy(temp: int) -> int:
     Returns:
         int: amount of power used by the heating system in kilowatts.
     """
-    if temp <= 0:
+    if temp < 0:
         return 120
 
-    elif 0 < temp <= 5:
+    elif 0 <= temp < 5:
         return 90
     
-    elif 5 < temp <= 10:
+    elif 5 <= temp < 10:
         return 60
     
-    elif 10 < temp <= 15:
+    elif 10 <= temp < 15:
         return 30
     
     elif temp >= 15:
