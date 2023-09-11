@@ -67,11 +67,12 @@ def get_elexon_key() -> str:
     raise RuntimeError
 
 
-def _response_to_df(response_string: str) -> pd.DataFrame:
+def _response_to_df(response_string: str, code: str) -> pd.DataFrame:
     """Converts utf-8 decoded response string to a pandas.DataFrame object.
 
     Args:
         response_string (str) : utf-8 decoded string from response content
+        code (str)          : BMRS report identifier (e.g. "B1440")
 
     Returns:
         pandas.DataFrame object
@@ -84,7 +85,10 @@ def _response_to_df(response_string: str) -> pd.DataFrame:
     header[0] = header[0].lstrip("*")  # Catch leading asterisk
     content = [x.split(",") for x in data_string[5:-1]]
 
-    return pd.DataFrame(content, columns=header)
+    if code == "B1620":
+        return pd.DataFrame(content, columns=header).iloc[-11:] # If there are old values included in the bmrs, only choose newer value.
+    else:
+        return pd.DataFrame(content, columns=header)
 
 
 def get_bmrs_report(code: str, date: str, period="*") -> pd.DataFrame:
@@ -139,7 +143,7 @@ def get_bmrs_report(code: str, date: str, period="*") -> pd.DataFrame:
 
     assert response.status_code == 200
 
-    return _response_to_df(response.content.decode("utf-8"))
+    return _response_to_df(response.content.decode("utf-8"), code)
 
 
 def get_bmrs_series(code: str, from_date_str: str, to_date_str: str) -> pd.DataFrame:

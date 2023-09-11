@@ -41,7 +41,7 @@ def test__response_to_df(string_response: str, resulting_dataframe: pd.DataFrame
         expected output dataframe for the given response string.
 
     """
-    output = _response_to_df(string_response)
+    output = _response_to_df(string_response, "B1440")
 
     # Assert type
     assert isinstance(output, pd.DataFrame)
