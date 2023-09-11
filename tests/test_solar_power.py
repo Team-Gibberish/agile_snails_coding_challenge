@@ -1,5 +1,6 @@
 """Tests for the solar power generation functions."""
 import pandas as pd
+import numpy as np
 
 from sjautobidder.solar_power.solar_utils import temperature_efficiency
 
@@ -16,8 +17,8 @@ def test_efficiency():
 
     result = temperature_efficiency(test_base_eff, test_temp_coeff, test_forecast)
 
-    assert isinstance(result, float)
-    assert result == -13.0
+    assert result.dtype == np.float64
+    assert result.item() == -13.0
 
 
 def test_weather_factor():
