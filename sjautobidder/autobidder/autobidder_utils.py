@@ -199,4 +199,4 @@ def get_price_forecast() -> list:
         period += 1
         n_periods += 1
 
-    return prices
+    return np.array(prices)
