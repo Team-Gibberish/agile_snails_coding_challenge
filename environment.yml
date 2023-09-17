@@ -4,16 +4,17 @@ channels:
   - defaults
 dependencies:
   - conda
+  - numpy=1.19.5
   - python=3.8.10
   - pvlib-python
   - pytest
   - prospector
-  - flask=2.2.5
+  - flask=1.1.4 #2.2.5
   - pip
   - pymongo[srv]
   - dnspython
   - scikit-learn=0.23.2
-  - pandas=1.5.3
+  - pandas=1.2.1 #1.5.3
   - pip:
     - pytest-coverage
     - build
