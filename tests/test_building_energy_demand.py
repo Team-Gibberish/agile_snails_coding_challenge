@@ -8,6 +8,7 @@ Todo:
 
 import pandas as pd
 import numpy as np
+import datetime as dt
 
 from sjautobidder.building_demand.energy_demand import (
     get_data_centre_demand,
@@ -15,6 +16,8 @@ from sjautobidder.building_demand.energy_demand import (
     get_office_equipment_demand,
     get_lighting_and_other_demand,
 )
+
+from sjautobidder.building_demand.energy_utils import adjust_datetime
 
 
 def test_get_data_centre_demand() -> None:
@@ -77,7 +80,11 @@ def test_get_office_equipment_demand():
     # Check return shape
     assert output.shape == (48,)
 
-    assert sum(output) == 160
+    test_day = adjust_datetime(dt.datetime.now().replace(hour=23, minute=0, second=0))
+    if test_day.weekday() in {4,5}:
+        assert sum(output) == 0
+    else:
+        assert sum(output) == 160
 
 
 def test_get_lighting_and_other_demand():
@@ -91,4 +98,10 @@ def test_get_lighting_and_other_demand():
     # Check return shape
     assert output.shape == (48,)
 
-    assert sum(output) == 320
+    test_day = adjust_datetime(dt.datetime.now().replace(hour=23, minute=0, second=0))
+    print(test_day)
+    if test_day.weekday() in {4,5}: 
+        # time period starts from 23:00 so technically if the input date is friday, the time period would be saturday.
+        assert sum(output) == 0
+    else:
+        assert sum(output) == 320.
