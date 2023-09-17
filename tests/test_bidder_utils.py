@@ -54,5 +54,5 @@ def test_get_price_forecast():
 
     output = get_price_forecast()
     assert isinstance(output, np.ndarray)
-    assert output.shape == (48,)
+    assert output.shape == (49,)
 
